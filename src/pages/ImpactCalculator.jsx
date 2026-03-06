@@ -8,6 +8,7 @@ import { TrendChart } from '../components/TrendChart';
 import { ProfileRadar } from '../components/ProfileRadar';
 import { Activity, Target, Zap, AlertCircle, RefreshCw } from 'lucide-react';
 import { cn } from '../lib/utils';
+import { addHistoryEntry } from '../lib/historyStore';
 
 import { Navbar } from '../components/Navbar';
 
@@ -70,19 +71,33 @@ export function ImpactCalculator({ setCurrentRoute }) {
         if (!player1) return;
 
         const filteredPlayer1 = { ...player1, innings: selectedFormat ? player1.innings.filter(i => i.format === selectedFormat) : player1.innings };
-        setResult({ player: filteredPlayer1, ...calculateImpact(filteredPlayer1) });
+        const impact1 = calculateImpact(filteredPlayer1);
+        setResult({ player: filteredPlayer1, ...impact1 });
+
+        let impact2 = null;
+        let p2Name = null;
 
         if (isCompareMode && selectedPlayer2Id !== 'none') {
             const player2 = players.find(p => p.playerId === selectedPlayer2Id);
             if (player2) {
                 const filteredPlayer2 = { ...player2, innings: selectedFormat ? player2.innings.filter(i => i.format === selectedFormat) : player2.innings };
-                setResult2({ player: filteredPlayer2, ...calculateImpact(filteredPlayer2) });
+                impact2 = calculateImpact(filteredPlayer2);
+                p2Name = player2.playerName;
+                setResult2({ player: filteredPlayer2, ...impact2 });
             } else {
                 setResult2(null);
             }
         } else {
             setResult2(null);
         }
+
+        addHistoryEntry({
+            player1: player1.playerName,
+            score1: impact1.score,
+            player2: p2Name,
+            score2: impact2 ? impact2.score : null,
+            timestamp: new Date().toISOString()
+        });
     };
 
     const renderPlayerResult = (res, isPlayer2 = false) => {
