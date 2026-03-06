@@ -16,7 +16,6 @@ import { PressureAnalysisCard } from '../components/PressureAnalysisCard';
 import { Navbar } from '../components/Navbar';
 import { TurningPointSection } from '../components/TurningPointSection';
 import { ScenarioAnalyzer } from '../components/ScenarioAnalyzer';
-import { ImpactLeaderboard } from '../components/ImpactLeaderboard';
 import { saveToLeaderboard } from '../utils/leaderboardStorage';
 
 export function ImpactCalculator({ setCurrentRoute }) {
@@ -406,11 +405,6 @@ export function ImpactCalculator({ setCurrentRoute }) {
                         </div>
                     </div>
                 )}
-                
-                {/* Global Leaderboard Section */}
-                <div className="mt-12">
-                   <ImpactLeaderboard />
-                </div>
             </main>
         </div>
     );

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { HowToModal } from './HowToModal';
+import { Activity } from 'lucide-react';
 
 export function Navbar({ currentRoute, setCurrentRoute }) {
     const [showHowTo, setShowHowTo] = useState(false);
@@ -21,7 +22,7 @@ export function Navbar({ currentRoute, setCurrentRoute }) {
                         {/* Logo */}
                         <div className="flex-shrink-0 flex items-center gap-2 cursor-pointer" onClick={() => setCurrentRoute('landing')}>
                             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-accent-primary to-accent-secondary flex items-center justify-center shadow-[0_0_15px_rgba(79,70,229,0.3)]">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 text-white"><path d="M12 2v20 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" /></svg>
+                                <Activity className="w-6 h-6 text-white" />
                             </div>
                             <span className="text-2xl font-black text-white tracking-tight">Impact<span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-primary to-accent-secondary">Metric</span></span>
                         </div>

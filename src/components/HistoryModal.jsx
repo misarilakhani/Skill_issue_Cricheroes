@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { getHistory } from '../lib/historyStore';
+import { ImpactLeaderboard } from './ImpactLeaderboard';
 
 export function HistoryModal({ onClose }) {
     const [history, setHistory] = useState([]);
+    const [activeTab, setActiveTab] = useState('history'); // 'history' | 'leaderboard'
 
     useEffect(() => {
         setHistory(getHistory());
@@ -16,18 +18,36 @@ export function HistoryModal({ onClose }) {
     return (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-in fade-in duration-200">
             <div className="bg-slate-900 border border-white/10 rounded-2xl shadow-2xl max-w-2xl w-full relative max-h-[85vh] flex flex-col">
-                <div className="p-6 border-b border-white/10 flex justify-between items-center shrink-0">
-                    <h2 className="text-2xl font-black text-white tracking-tight">Previous Impact Scores</h2>
-                    <button 
+                <div className="p-4 sm:p-6 border-b border-white/10 flex justify-between items-center shrink-0">
+                    <div className="flex items-center gap-4">
+                        <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight hidden sm:block">Scores</h2>
+                        <div className="flex bg-slate-800/80 rounded-lg p-1 border border-white/5">
+                            <button
+                                onClick={() => setActiveTab('history')}
+                                className={`px-3 py-1.5 sm:px-4 text-xs sm:text-sm font-bold rounded-md transition-all ${activeTab === 'history' ? 'bg-slate-700 text-white shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-700/50'}`}
+                            >
+                                History
+                            </button>
+                            <button
+                                onClick={() => setActiveTab('leaderboard')}
+                                className={`px-3 py-1.5 sm:px-4 text-xs sm:text-sm font-bold rounded-md transition-all ${activeTab === 'leaderboard' ? 'bg-slate-700 text-white shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-700/50'}`}
+                            >
+                                Leaderboard
+                            </button>
+                        </div>
+                    </div>
+                    <button
                         onClick={onClose}
-                        className="text-slate-400 hover:text-white transition-colors"
+                        className="text-slate-400 hover:text-white transition-colors p-2 bg-slate-800/50 rounded-full hover:bg-slate-700"
                     >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                     </button>
                 </div>
-                
-                <div className="p-6 overflow-y-auto flex-1">
-                    {history.length === 0 ? (
+
+                <div className="p-4 sm:p-6 overflow-y-auto flex-1">
+                    {activeTab === 'leaderboard' ? (
+                        <ImpactLeaderboard />
+                    ) : history.length === 0 ? (
                         <div className="text-center py-12">
                             <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-slate-800 flex items-center justify-center text-slate-500">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
@@ -60,9 +80,9 @@ export function HistoryModal({ onClose }) {
                         </div>
                     )}
                 </div>
-                
+
                 <div className="p-4 border-t border-white/10 shrink-0 flex justify-end">
-                    <button 
+                    <button
                         onClick={onClose}
                         className="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-2.5 px-6 rounded-xl transition-colors border border-white/5 text-sm"
                     >
