@@ -41,4 +41,3 @@ Update the right-side string values to perfectly match the headers in your CSV. 
 3. The build command is `npm run build` and the output directory is `dist`.
 4. It will deploy perfectly out-of-the-box.
 
-Built for the Hackathon! 🏏
