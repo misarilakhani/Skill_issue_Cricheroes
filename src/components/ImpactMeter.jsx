@@ -61,13 +61,13 @@ export function ImpactMeter({ score, animate = true, colorTheme = 'default' }) {
     const valueOffset = fgCircumference - dashLength;
 
     return (
-        <div className="relative w-[180px] h-[110px] mx-auto mt-4 mb-2 flex flex-col items-center justify-center">
+        <div className="relative w-[180px] h-[130px] mx-auto mt-4 mb-2 flex flex-col items-center justify-center">
 
             {/* SVG Circular Dial */}
             <svg
                 height={110}
                 width={180}
-                className="absolute inset-0 drop-shadow-2xl overflow-visible"
+                className="absolute top-0 left-0 drop-shadow-2xl overflow-visible"
             >
                 <defs>
                     <linearGradient id="gradient-amber" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -130,11 +130,11 @@ export function ImpactMeter({ score, animate = true, colorTheme = 'default' }) {
             </svg>
 
             {/* Center Text positioned cleanly inside the arc */}
-            <div className="absolute top-[32%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none flex flex-col items-center">
-                <div className={`text-5xl sm:text-6xl font-black ${getColor(score)} transition-colors duration-1000 tracking-tighter drop-shadow-md leading-[0.7]`}>
+            <div className="absolute top-[85px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none flex flex-col items-center">
+                <div className={`text-5xl sm:text-6xl font-black ${getColor(score)} transition-colors duration-1000 tracking-tighter drop-shadow-md leading-none`}>
                     {Math.round(displayScore)}
                 </div>
-                <div className="text-slate-400 text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] mt-0 opacity-80">
+                <div className="text-slate-400 text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] mt-3 opacity-80">
                     Impact
                 </div>
             </div>
