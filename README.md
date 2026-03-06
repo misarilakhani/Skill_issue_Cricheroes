@@ -3,10 +3,10 @@
 A beautiful, responsive React + Vite application that calculates and visualizes a "Player Impact Score" (0-100) based on cricket match datasets.
 
 ## Features
-- **No Backend**: Runs entirely in the browser.
-- **Auto Dataset Loading**: Drop your `data.csv` or `data.json` into `/public/dataset/` and it will automatically parse them.
-- **Robust Adapter**: Maps custom dataset columns to internal models easily using `src/lib/datasetMapping.js`.
-- **Impact Algorithm**: Rolling 10-innings weighted score based on Performance, Context (Phase/Economy), and Pressure (Chases/Death overs).
+- **Supabase Integration**: Fetches real-time IPL match data from a remote database.
+- **Dynamic Calculation**: Detailed player history is fetched on-demand during impact analysis.
+- **Fallback Mode**: Includes a built-in `demoPlayers.js` fallback to ensure the app works even without a DB connection.
+- **Impact Algorithm**: Rolling weighted score based on Performance, Context, and Pressure.
 - **Premium UI**: Dark mode, glassmorphism, Recharts trendlines, and animated Impact Meter.
 
 ## Quick Start
@@ -27,13 +27,18 @@ You'll need Node.js installed on your machine.
    npm run build
    ```
 
-## Handling Datasets
-By default, the app will look for a dataset in `public/dataset/data.json` or `public/dataset/data.csv`.
-If neither is found, it will gracefully load a small, built-in demo dataset so the app won't crash during presentations!
+## Setup & Environment Variables
 
-### Changing Column Names
-If the Hackathon organizers provide a CSV with different column names entirely (e.g., `Batter Runs` instead of `runs_scored`), open the file `src/lib/datasetMapping.js`. 
-Update the right-side string values to perfectly match the headers in your CSV. No other code changes are needed!
+To connect the application to your Supabase instance, create a `.env` file in the root directory with the following:
+
+```env
+VITE_SUPABASE_URL=your_supabase_project_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+## Data Structure
+
+The application expects a Supabase table named `ipl_match_data` with columns representing match statistics (player_name, runs, balls, strike_rate, etc.).
 
 ## Deployment (Vercel/Netlify)
 1. Push this repository to GitHub.

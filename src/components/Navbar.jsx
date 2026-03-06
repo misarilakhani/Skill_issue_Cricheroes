@@ -72,6 +72,12 @@ export function Navbar({ currentRoute, setCurrentRoute }) {
 
                             {/* CTA */}
                             <button
+                                onClick={() => setCurrentRoute('database')}
+                                className={`text-sm font-medium transition-colors hover:text-white ${currentRoute === 'database' ? 'text-white' : 'text-slate-400'}`}
+                            >
+                                Database
+                            </button>
+                            <button
                                 onClick={() => setShowHowTo(true)}
                                 className="relative inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold text-white transition-all duration-300 active:scale-95 overflow-hidden group"
                                 style={{
@@ -87,6 +93,12 @@ export function Navbar({ currentRoute, setCurrentRoute }) {
 
                         {/* Mobile */}
                         <div className="md:hidden">
+                            <button
+                                onClick={() => setCurrentRoute('database')}
+                                className={`inline-flex items-center justify-center px-4 py-2 border border-white/10 rounded-lg shadow-sm text-sm font-bold text-white ${currentRoute === 'database' ? 'bg-white/15' : 'bg-white/5'} hover:bg-white/10 transition-all mr-2`}
+                            >
+                                Dataset
+                            </button>
                             <button
                                 onClick={() => setShowHowTo(true)}
                                 className="px-4 py-2 rounded-lg text-sm font-bold text-white border border-white/10 bg-white/5 hover:bg-white/10 transition-all"

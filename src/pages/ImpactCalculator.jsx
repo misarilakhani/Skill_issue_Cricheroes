@@ -6,7 +6,7 @@ import { Header } from '../components/ui';
 import { ImpactMeter } from '../components/ImpactMeter';
 import { TrendChart } from '../components/TrendChart';
 import { ProfileRadar } from '../components/ProfileRadar';
-import { Activity, Target, Zap, AlertCircle, RefreshCw } from 'lucide-react';
+import { Activity, Target, Zap, AlertCircle, RefreshCw, Loader2 } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { addHistoryEntry } from '../lib/historyStore';
 import { generateScoreStory } from '../utils/generateScoreStory';
@@ -17,6 +17,7 @@ import { Navbar } from '../components/Navbar';
 import { TurningPointSection } from '../components/TurningPointSection';
 import { ScenarioAnalyzer } from '../components/ScenarioAnalyzer';
 import { saveToLeaderboard } from '../utils/leaderboardStorage';
+import supabase from '../services/supabaseClient';
 
 export function ImpactCalculator({ setCurrentRoute }) {
     const [loading, setLoading] = useState(true);
@@ -31,6 +32,8 @@ export function ImpactCalculator({ setCurrentRoute }) {
     const [result, setResult] = useState(null);
     const [result2, setResult2] = useState(null);
     const [showAdvanced, setShowAdvanced] = useState(false);
+    const [calculating, setCalculating] = useState(false);
+    const isDemoMode = !supabase;
 
     useEffect(() => {
         async function init() {
@@ -47,77 +50,115 @@ export function ImpactCalculator({ setCurrentRoute }) {
         init();
     }, []);
 
-    const availablePlayers = React.useMemo(() => {
-        if (!selectedFormat) return players;
-        return players.filter(p => p.innings.some(i => i.format === selectedFormat));
-    }, [players, selectedFormat]);
+    const fetchPlayerData = async (player) => {
+        // If player already has innings (fallback demo data), don't fetch
+        if (player.innings && player.innings.length > 0) return player;
+
+        try {
+            console.log(`Fetching detailed data for ${player.playerName} from Supabase...`);
+            if (!supabase) throw new Error("Supabase client not initialized.");
+
+            const { data, error } = await supabase
+                .from('ipl_match_data')
+                .select('*')
+                .eq('player_name', player.playerName);
+
+            if (error) throw error;
+            if (!data) return player;
+
+            // Map Supabase columns to internal format (adapt to user's requested columns)
+            const innings = data.map(row => ({
+                matchId: row.match_id || row.id,
+                date: row.match_date || row.match_id,
+                format: row.format || 'T20',
+                runs: row.runs || row.runs_scored || 0,
+                balls: row.balls || row.balls_faced || 0,
+                battingStrikeRate: row.strike_rate || 0,
+                wickets: row.wickets || row.wickets_taken || 0,
+                overs: row.overs || row.overs_bowled || 0,
+                runsConceded: row.runs_conceded || 0,
+                economy: row.economy || row.economy_rate || 0,
+                phase: row.match_phase || 'Middle',
+                requiredRunRate: row.required_run_rate || 0,
+                isChase: row.is_chasing || false,
+                team: row.team || '',
+                opposition: row.opposition_team || row.opposition || '',
+                result: row.match_result || 'Unknown'
+            }));
+
+            return { ...player, innings };
+        } catch (err) {
+            console.error(`Failed to fetch data for ${player.playerName}:`, err);
+            return player;
+        }
+    };
 
     const playersWithCounts = React.useMemo(() => {
-        return availablePlayers.map(p => {
-            const count = selectedFormat
-                ? p.innings.filter(i => i.format === selectedFormat).length
-                : p.innings.length;
+        return players.map(p => {
+            const count = p.innings ? p.innings.length : 0;
             return { ...p, matchCount: count };
         });
-    }, [availablePlayers, selectedFormat]);
+    }, [players]);
 
-    useEffect(() => {
-        if (playersWithCounts.length > 0 && !playersWithCounts.find(p => p.playerId === selectedPlayerId)) {
-            setSelectedPlayerId(playersWithCounts[0].playerId);
-        }
-    }, [playersWithCounts, selectedPlayerId]);
+    const handleCalculate = async () => {
+        setCalculating(true);
+        try {
+            const p1Meta = players.find(p => p.playerId === selectedPlayerId);
+            if (!p1Meta) return;
 
-    useEffect(() => {
-        if (selectedPlayer2Id !== 'none' && playersWithCounts.length > 0 && !playersWithCounts.find(p => p.playerId === selectedPlayer2Id)) {
-            setSelectedPlayer2Id('none');
-        }
-    }, [playersWithCounts, selectedPlayer2Id]);
+            const player1 = await fetchPlayerData(p1Meta);
+            const filteredPlayer1 = { 
+                ...player1, 
+                innings: selectedFormat ? player1.innings.filter(i => i.format === selectedFormat) : player1.innings 
+            };
+            
+            const impact1 = calculateImpact(filteredPlayer1);
+            setResult({ player: filteredPlayer1, ...impact1 });
 
-    const handleCalculate = () => {
-        const player1 = players.find(p => p.playerId === selectedPlayerId);
-        if (!player1) return;
+            let impact2 = null;
+            let p2Name = null;
 
-        const filteredPlayer1 = { ...player1, innings: selectedFormat ? player1.innings.filter(i => i.format === selectedFormat) : player1.innings };
-        const impact1 = calculateImpact(filteredPlayer1);
-        setResult({ player: filteredPlayer1, ...impact1 });
-
-        let impact2 = null;
-        let p2Name = null;
-
-        if (isCompareMode && selectedPlayer2Id !== 'none') {
-            const player2 = players.find(p => p.playerId === selectedPlayer2Id);
-            if (player2) {
-                const filteredPlayer2 = { ...player2, innings: selectedFormat ? player2.innings.filter(i => i.format === selectedFormat) : player2.innings };
-                impact2 = calculateImpact(filteredPlayer2);
-                p2Name = player2.playerName;
-                setResult2({ player: filteredPlayer2, ...impact2 });
+            if (isCompareMode && selectedPlayer2Id !== 'none') {
+                const p2Meta = players.find(p => p.playerId === selectedPlayer2Id);
+                if (p2Meta) {
+                    const player2 = await fetchPlayerData(p2Meta);
+                    const filteredPlayer2 = { 
+                        ...player2, 
+                        innings: selectedFormat ? player2.innings.filter(i => i.format === selectedFormat) : player2.innings 
+                    };
+                    impact2 = calculateImpact(filteredPlayer2);
+                    p2Name = player2.playerName;
+                    setResult2({ player: filteredPlayer2, ...impact2 });
+                }
             } else {
                 setResult2(null);
             }
-        } else {
-            setResult2(null);
-        }
 
-        addHistoryEntry({
-            player1: player1.playerName,
-            score1: impact1.score,
-            player2: p2Name,
-            score2: impact2 ? impact2.score : null,
-            timestamp: new Date().toISOString()
-        });
-
-        // Save to leaderboard
-        saveToLeaderboard({
-            playerName: player1.playerName,
-            impactScore: impact1.score
-        });
-        if (impact2) {
-            saveToLeaderboard({
-                playerName: p2Name,
-                impactScore: impact2.score
+            addHistoryEntry({
+                player1: player1.playerName,
+                score1: impact1.score,
+                player2: p2Name,
+                score2: impact2 ? impact2.score : null,
+                timestamp: new Date().toISOString()
             });
+
+            saveToLeaderboard({
+                playerName: player1.playerName,
+                impactScore: impact1.score
+            });
+            if (impact2) {
+                saveToLeaderboard({
+                    playerName: p2Name,
+                    impactScore: impact2.score
+                });
+            }
+        } catch (err) {
+            console.error("Calculation error:", err);
+        } finally {
+            setCalculating(false);
         }
     };
+
 
     const renderPlayerResult = (res, isPlayer2 = false) => {
         const story = generateScoreStory(res);
@@ -266,18 +307,46 @@ export function ImpactCalculator({ setCurrentRoute }) {
         <div className="min-h-screen text-slate-100 pb-20 overflow-x-hidden pt-24 relative z-10">
             <Navbar currentRoute="calculator" setCurrentRoute={setCurrentRoute} />
             <main className="max-w-4xl lg:max-w-[70rem] mx-auto px-4 sm:px-6">
-                <div className="glass-panel p-8 rounded-[2rem] mb-10 overflow-hidden group relative border-accent-top">
+                <div className="glass-panel p-8 rounded-[2rem] mb-6 overflow-hidden group relative border-accent-top">
                     <div className="absolute inset-0 bg-gradient-to-br from-accent-primary/5 via-transparent to-accent-secondary/5 opacity-0 group-hover:opacity-100 transition-all duration-1000 -z-10"></div>
                     <div className="absolute top-0 right-0 w-72 h-72 rounded-full blur-[100px] -z-10" style={{ background: 'radial-gradient(circle, rgba(79,70,229,0.12) 0%, transparent 70%)' }}></div>
 
-                    <div className="text-center md:text-left mb-8">
-                        <h2 className="text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-slate-100 to-slate-400 tracking-tight">
-                            Analyze Performance with Cricentrix
-                        </h2>
-                        <p className="text-sm text-slate-400 mt-2 font-medium">
-                            Select players to generate their 0-100 impact score based on recent performances, context, and pressure.
-                        </p>
+                    <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 mb-8">
+                        <div className="text-center md:text-left">
+                            <h2 className="text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-slate-100 to-slate-400 tracking-tight">
+                                Analyze Performance with Cricentrix
+                            </h2>
+                            <p className="text-sm text-slate-400 mt-2 font-medium">
+                                Select players to generate their 0-100 impact score based on recent performances, context, and pressure.
+                            </p>
+                        </div>
+
+                        {/* Data Source Badge */}
+                        <div className={cn(
+                            "px-4 py-2 rounded-2xl border flex items-center gap-2 transition-all shadow-lg self-center md:self-start",
+                            isDemoMode 
+                                ? "bg-amber-500/10 border-amber-500/20 text-amber-400 shadow-amber-500/5" 
+                                : "bg-emerald-500/10 border-emerald-500/20 text-emerald-400 shadow-emerald-500/5"
+                        )}>
+                            <div className={cn("w-2 h-2 rounded-full", isDemoMode ? "bg-amber-400 animate-pulse" : "bg-emerald-400")}></div>
+                            <span className="text-[10px] font-black uppercase tracking-widest whitespace-nowrap">
+                                {isDemoMode ? 'Demo Fallback' : 'Supabase Active'}
+                            </span>
+                        </div>
                     </div>
+
+                    {isDemoMode && (
+                        <div className="mb-8 p-4 bg-indigo-500/5 border border-indigo-500/20 rounded-2xl flex items-center gap-4 animate-in slide-in-from-top-2">
+                            <div className="bg-indigo-500/20 p-2 rounded-xl">
+                                <AlertCircle className="w-5 h-5 text-indigo-400" />
+                            </div>
+                            <div>
+                                <p className="text-sm font-medium text-slate-300">
+                                    <span className="font-bold text-white">Rule:</span> Each demo player has <span className="text-accent-teal font-black">10 matches</span>. Connect Supabase via <code className="bg-black/40 px-1.5 py-0.5 rounded text-accent-teal">.env</code> for live data.
+                                </p>
+                            </div>
+                        </div>
+                    )}
 
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
                         {formats.length > 0 && (
@@ -355,13 +424,19 @@ export function ImpactCalculator({ setCurrentRoute }) {
                         <div className="md:col-span-3">
                             <button
                                 onClick={handleCalculate}
-                                className="w-full rounded-2xl px-5 py-4 transition-all hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-2 font-bold text-white group relative overflow-hidden"
-                                style={{ background: '#4F46E5', boxShadow: '0 0 24px rgba(79,70,229,0.4)' }}
-                                onMouseEnter={e => { e.currentTarget.style.background = '#4338CA'; e.currentTarget.style.boxShadow = '0 0 36px rgba(79,70,229,0.65)'; }}
-                                onMouseLeave={e => { e.currentTarget.style.background = '#4F46E5'; e.currentTarget.style.boxShadow = '0 0 24px rgba(79,70,229,0.4)'; }}
+                                disabled={calculating}
+                                className="w-full bg-gradient-to-r from-accent-primary to-accent-secondary hover:from-indigo-500 hover:to-cyan-400 text-white font-bold rounded-2xl px-5 py-4 transition-all hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-2 shadow-[0_10px_20px_-10px_rgba(79,70,229,0.5)] group overflow-hidden relative disabled:opacity-70 disabled:cursor-not-allowed"
                             >
-                                <RefreshCw className="w-5 h-5 group-hover:rotate-180 transition-transform duration-500" />
-                                <span className="tracking-widest uppercase text-sm font-black">Calculate</span>
+                                <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
+                                {calculating ? (
+                                    <Loader2 className="w-5 h-5 relative z-10 animate-spin" />
+                                ) : (
+                                    <RefreshCw className="w-5 h-5 relative z-10 group-hover:rotate-180 transition-transform duration-500" />
+                                )}
+                                <span className="relative z-10 tracking-wide">
+                                    {calculating ? 'Fetching Data...' : 'Calculate'}
+                                </span>
+
                             </button>
                         </div>
                     </div>
