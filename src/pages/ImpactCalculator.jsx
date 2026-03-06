@@ -392,7 +392,7 @@ export function ImpactCalculator({ setCurrentRoute }) {
                         {!result2 && showAdvanced && (
                             <div className="space-y-6 mt-8 animate-in fade-in slide-in-from-top-4 duration-500">
                                 <TurningPointSection result={result} />
-                                <ScenarioAnalyzer result={result} />
+                                <ScenarioAnalyzer result={result} players={players} />
                             </div>
                         )}
 

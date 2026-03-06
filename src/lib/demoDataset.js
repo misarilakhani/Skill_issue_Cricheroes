@@ -48,4 +48,9 @@ export const demoDataset = [
     { player_name: "Rookie Player", format: "T20", match_date: "2023-11-15", runs_scored: 10, balls_faced: 8, strike_rate: 125.0, match_phase: "Middle", is_chasing: false, required_run_rate: null, opposition_team: "Pakistan" },
     { player_name: "Rookie Player", format: "T20", match_date: "2023-11-10", runs_scored: 5, balls_faced: 12, strike_rate: 41.6, match_phase: "Powerplay", is_chasing: true, required_run_rate: 8.0, opposition_team: "England" },
     { player_name: "Rookie Player", format: "T20", match_date: "2023-11-05", runs_scored: 25, balls_faced: 18, strike_rate: 138.8, match_phase: "Death", is_chasing: false, required_run_rate: null, opposition_team: "South Africa" },
+
+    // Tailender - T20 (High probability of Weak suitability for batting)
+    { player_name: "Tailender Player", format: "T20", match_date: "2023-11-15", runs_scored: 2, balls_faced: 8, strike_rate: 25.0, match_phase: "Death", is_chasing: true, required_run_rate: 12.0, opposition_team: "Australia" },
+    { player_name: "Tailender Player", format: "T20", match_date: "2023-11-10", runs_scored: 0, balls_faced: 5, strike_rate: 0.0, match_phase: "Death", is_chasing: false, required_run_rate: null, opposition_team: "South Africa" },
+    { player_name: "Tailender Player", format: "T20", match_date: "2023-11-05", runs_scored: 5, balls_faced: 10, strike_rate: 50.0, match_phase: "Death", is_chasing: true, required_run_rate: 7.0, opposition_team: "Pakistan" },
 ];
