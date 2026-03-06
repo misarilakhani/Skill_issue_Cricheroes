@@ -28,19 +28,8 @@ export function Hero({ setCurrentRoute }) {
                 ref={heroRef}
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
-                className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden min-h-screen flex items-center justify-center cursor-crosshair group/hero"
+                className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden min-h-screen flex items-center justify-center group/hero"
             >
-                {/* Custom glowing cursor follower (only visible on desktop hover) */}
-                <div
-                    className="hidden lg:block absolute w-8 h-8 rounded-full border border-accent-secondary/50 bg-accent-primary/10 backdrop-blur-sm pointer-events-none z-50 mix-blend-screen transition-transform duration-75"
-                    style={{
-                        left: '50%', top: '50%',
-                        transform: `translate(calc(-50% + ${mousePos.x * 50}vw), calc(-50% + ${mousePos.y * 50}vh)) scale(1.5)`
-                    }}
-                >
-                    <div className="absolute inset-0 rounded-full animate-ping bg-accent-secondary/30"></div>
-                </div>
-
                 {/* Minimal Background Elements */}
                 <div className="absolute inset-0 z-0 flex items-center justify-center opacity-[0.03] pointer-events-none">
                     <div className="w-full h-full border-x border-white flex justify-center max-w-7xl">

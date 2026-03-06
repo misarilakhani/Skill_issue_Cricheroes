@@ -18,6 +18,11 @@
     background-blend-mode: overlay;
   }
 
+  /* Force hide native cursor globally so custom cursor is always visible */
+  *, *::before, *::after {
+    cursor: none !important;
+  }
+
   /* Custom Scrollbar */
   ::-webkit-scrollbar {
     width: 8px;
