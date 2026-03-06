@@ -80,6 +80,17 @@ export function Navbar({ currentRoute, setCurrentRoute }) {
                                     <span className="absolute -bottom-1 left-0 right-0 h-px bg-gradient-to-r from-accent-primary to-accent-secondary rounded-full" />
                                 )}
                             </button>
+                            <button
+                                onClick={() => setCurrentRoute('highlights')}
+                                className="relative text-sm font-semibold tracking-wide transition-colors duration-200"
+                            >
+                                <span className={currentRoute === 'highlights' ? 'text-white' : 'text-slate-400 hover:text-white'}>
+                                    Highlights
+                                </span>
+                                {currentRoute === 'highlights' && (
+                                    <span className="absolute -bottom-1 left-0 right-0 h-px bg-gradient-to-r from-accent-primary to-accent-secondary rounded-full" />
+                                )}
+                            </button>
 
                             {/* CTA */}
                             <button

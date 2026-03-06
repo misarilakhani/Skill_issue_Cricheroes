@@ -6,7 +6,7 @@ import { Header } from '../components/ui';
 import { ImpactMeter } from '../components/ImpactMeter';
 import { TrendChart } from '../components/TrendChart';
 import { ProfileRadar } from '../components/ProfileRadar';
-import { Activity, Target, Zap, AlertCircle, RefreshCw, Loader2 } from 'lucide-react';
+import { Activity, Target, Zap, AlertCircle, RefreshCw, Loader2, Trophy } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { addHistoryEntry } from '../lib/historyStore';
 import { generateScoreStory } from '../utils/generateScoreStory';
@@ -19,10 +19,10 @@ import { ScenarioAnalyzer } from '../components/ScenarioAnalyzer';
 import { saveToLeaderboard } from '../utils/leaderboardStorage';
 import supabase from '../services/supabaseClient';
 
-export function ImpactCalculator({ setCurrentRoute }) {
-    const [loading, setLoading] = useState(true);
-    const [players, setPlayers] = useState([]);
-    const [formats, setFormats] = useState([]);
+
+export function ImpactCalculator({ setCurrentRoute, initialPlayers = [], initialFormats = [] }) {
+    const [players, setPlayers] = useState(initialPlayers);
+    const [formats, setFormats] = useState(initialFormats);
 
     const [selectedPlayerId, setSelectedPlayerId] = useState('');
     const [selectedPlayer2Id, setSelectedPlayer2Id] = useState('none');
@@ -36,19 +36,13 @@ export function ImpactCalculator({ setCurrentRoute }) {
     const isDemoMode = !supabase;
 
     useEffect(() => {
-        async function init() {
-            const data = await loadDataset();
-            setPlayers(data.players || []);
-            setFormats(data.formats || []);
-
-            // Select first format and player if available
-            if (data.formats?.length > 0) setSelectedFormat(data.formats[0]);
-            if (data.players?.length > 0) setSelectedPlayerId(data.players[0].playerId);
-
-            setLoading(false);
-        }
-        init();
-    }, []);
+        setPlayers(initialPlayers);
+        setFormats(initialFormats);
+        
+        // Select first format and player if available
+        if (initialFormats?.length > 0) setSelectedFormat(initialFormats[0]);
+        if (initialPlayers?.length > 0) setSelectedPlayerId(initialPlayers[0].playerId);
+    }, [initialPlayers, initialFormats]);
 
     const fetchPlayerData = async (player) => {
         // If player already has innings (fallback demo data), don't fetch
@@ -295,13 +289,8 @@ export function ImpactCalculator({ setCurrentRoute }) {
         );
     };
 
-    if (loading) {
-        return (
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12" style={{ border: '3px solid rgba(255,255,255,0.05)', borderTopColor: '#4F46E5' }}></div>
-            </div>
-        );
-    }
+    // Since data is loaded in App.jsx, we don't need a separate loading screen here
+    // unless we are specifically waiting for a comparison fetch
 
     return (
         <div className="min-h-screen text-slate-100 pb-20 overflow-x-hidden pt-24 relative z-10">
@@ -322,16 +311,26 @@ export function ImpactCalculator({ setCurrentRoute }) {
                         </div>
 
                         {/* Data Source Badge */}
-                        <div className={cn(
-                            "px-4 py-2 rounded-2xl border flex items-center gap-2 transition-all shadow-lg self-center md:self-start",
-                            isDemoMode 
-                                ? "bg-amber-500/10 border-amber-500/20 text-amber-400 shadow-amber-500/5" 
-                                : "bg-emerald-500/10 border-emerald-500/20 text-emerald-400 shadow-emerald-500/5"
-                        )}>
-                            <div className={cn("w-2 h-2 rounded-full", isDemoMode ? "bg-amber-400 animate-pulse" : "bg-emerald-400")}></div>
-                            <span className="text-[10px] font-black uppercase tracking-widest whitespace-nowrap">
-                                {isDemoMode ? 'Demo Fallback' : 'Supabase Active'}
-                            </span>
+                        <div className="flex flex-col items-center md:items-end gap-3 flex-shrink-0">
+                            <div className={cn(
+                                "px-4 py-2 rounded-2xl border flex items-center gap-2 transition-all shadow-lg",
+                                isDemoMode 
+                                    ? "bg-amber-500/10 border-amber-500/20 text-amber-400 shadow-amber-500/5" 
+                                    : "bg-emerald-500/10 border-emerald-500/20 text-emerald-400 shadow-emerald-500/5"
+                            )}>
+                                <div className={cn("w-2 h-2 rounded-full", isDemoMode ? "bg-amber-400 animate-pulse" : "bg-emerald-400")}></div>
+                                <span className="text-[10px] font-black uppercase tracking-widest whitespace-nowrap">
+                                    {isDemoMode ? 'Demo Fallback' : 'Supabase Active'}
+                                </span>
+                            </div>
+
+                            <button
+                                onClick={() => setCurrentRoute('highlights')}
+                                className="group flex items-center gap-2.5 px-5 py-2.5 rounded-2xl bg-slate-900/50 hover:bg-slate-800 border border-white/5 hover:border-accent-primary/30 transition-all duration-300"
+                            >
+                                <Trophy className="w-4 h-4 text-accent-primary" />
+                                <span className="text-[11px] font-black uppercase tracking-[0.1em] text-slate-300 group-hover:text-white">View Impact Highlights</span>
+                            </button>
                         </div>
                     </div>
 
