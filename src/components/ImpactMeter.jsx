@@ -53,13 +53,13 @@ export function ImpactMeter({ score, animate = true, colorTheme = 'default' }) {
     const valueOffset = circumference - dashLength;
 
     return (
-        <div className="relative flex flex-col items-center justify-center pt-4 pb-2">
+        <div className="relative w-[180px] h-[110px] mx-auto mt-4 mb-2 flex flex-col items-center justify-center">
 
             {/* SVG Circular Dial */}
             <svg
                 height={110}
                 width={180}
-                className="drop-shadow-2xl overflow-visible"
+                className="absolute inset-0 drop-shadow-2xl overflow-visible"
             >
                 <defs>
                     <linearGradient id="gradient-amber" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -121,7 +121,7 @@ export function ImpactMeter({ score, animate = true, colorTheme = 'default' }) {
             </svg>
 
             {/* Center Text positioned cleanly inside the arc */}
-            <div className="absolute top-4 left-0 right-0 h-[110px] flex flex-col items-center justify-end pb-2 pointer-events-none">
+            <div className="absolute top-[80px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none flex flex-col items-center w-full">
                 <div className={`text-5xl sm:text-6xl font-black ${getColor(score)} transition-colors duration-1000 tracking-tighter drop-shadow-md leading-none`}>
                     {Math.round(displayScore)}
                 </div>
