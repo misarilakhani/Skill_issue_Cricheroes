@@ -23,13 +23,7 @@ export function Hero({ setCurrentRoute }) {
 
                         {/* Text Content */}
                         <div className="lg:col-span-6 text-center lg:text-left mb-16 lg:mb-0">
-                            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-slate-300 text-xs font-semibold uppercase tracking-widest mb-8 backdrop-blur-md">
-                                <span className="relative flex h-2 w-2">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-secondary opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-accent-secondary"></span>
-                                </span>
-                                Next-Gen Cricket Analytics
-                            </div>
+                            {/* Badge Intentionally Removed */}
                             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-light text-white tracking-tight mb-6 leading-[1.1]">
                                 Cricket's <br className="hidden sm:block" />
                                 <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-accent-primary to-accent-secondary">True Impact</span>
@@ -111,7 +105,6 @@ export function Hero({ setCurrentRoute }) {
                                     <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-accent-primary/0 to-accent-primary/10 opacity-0 group-hover/chip:opacity-100 transition-opacity"></div>
                                     <div className="text-[10px] text-slate-400 uppercase tracking-widest mb-1 font-semibold">Contextual Boost</div>
                                     <div className="text-base font-bold text-white flex items-center gap-2">
-                                        <div className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]"></div>
                                         +24.5%
                                     </div>
                                 </div>

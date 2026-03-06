@@ -7,7 +7,7 @@ export function Navbar({ currentRoute, setCurrentRoute }) {
     return (
         <>
             {showHowTo && (
-                <HowToModal 
+                <HowToModal
                     onClose={() => setShowHowTo(false)}
                     onGoToCalculator={() => {
                         setShowHowTo(false);
@@ -51,10 +51,10 @@ export function Navbar({ currentRoute, setCurrentRoute }) {
                         {/* Mobile Menu Button (Simplified for MVP, defaults to Try Demo) */}
                         <div className="md:hidden flex items-center">
                             <button
-                                onClick={() => currentRoute === 'landing' ? setShowHowTo(true) : setCurrentRoute('landing')}
+                                onClick={() => setShowHowTo(true)}
                                 className="inline-flex items-center justify-center px-4 py-2 border border-white/10 rounded-lg shadow-sm text-sm font-bold text-white bg-white/5 hover:bg-white/10 transition-all"
                             >
-                                {currentRoute === 'landing' ? 'Try Demo' : 'Home'}
+                                Try Demo
                             </button>
                         </div>
                     </div>
