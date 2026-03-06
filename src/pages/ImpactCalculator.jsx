@@ -9,7 +9,10 @@ import { ProfileRadar } from '../components/ProfileRadar';
 import { Activity, Target, Zap, AlertCircle, RefreshCw } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { addHistoryEntry } from '../lib/historyStore';
-
+import { generateScoreStory } from '../utils/generateScoreStory';
+import { analyzePressure } from '../utils/pressureAnalysis';
+import { ScoreStoryCard } from '../components/ScoreStoryCard';
+import { PressureAnalysisCard } from '../components/PressureAnalysisCard';
 import { Navbar } from '../components/Navbar';
 
 export function ImpactCalculator({ setCurrentRoute }) {
@@ -101,6 +104,9 @@ export function ImpactCalculator({ setCurrentRoute }) {
     };
 
     const renderPlayerResult = (res, isPlayer2 = false) => {
+        const story = generateScoreStory(res);
+        const pressureAnalysis = analyzePressure(res.recentInnings);
+
         const themeCls = {
             glow: isPlayer2 ? "bg-amber-500/10" : "bg-teal-500/10",
             glowHover: isPlayer2 ? "group-hover:bg-amber-500/20" : "group-hover:bg-teal-500/20",
@@ -164,6 +170,11 @@ export function ImpactCalculator({ setCurrentRoute }) {
                 <div className="glass-panel p-4 rounded-3xl relative overflow-hidden group">
                     <div className={`absolute top-0 right-0 w-32 h-32 rounded-full blur-[60px] -z-10 transition-colors duration-700 ${themeCls.glow} ${themeCls.glowHover}`}></div>
                     <ProfileRadar breakdown={res.breakdown} theme={themeCls.meterTheme} />
+                </div>
+
+                <div className="flex flex-col lg:flex-row gap-4 mt-6">
+                    <ScoreStoryCard story={story} isPlayer2={isPlayer2} />
+                    <PressureAnalysisCard analysis={pressureAnalysis} isPlayer2={isPlayer2} />
                 </div>
             </div>
         );
