@@ -2,112 +2,121 @@ import React from 'react';
 
 export function Hero({ setCurrentRoute }) {
     return (
-        <div className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden min-h-screen flex items-center">
-            {/* Background elements (pitch lines, glow) */}
-            <div className="absolute inset-0 z-0 flex items-center justify-center opacity-20 pointer-events-none">
-                <div className="w-full h-full max-w-5xl border-x border-white/10 flex justify-center">
-                    <div className="w-[60%] h-full border-x border-white/5"></div>
+        <div className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden min-h-screen flex items-center justify-center">
+            {/* Minimal Background Elements */}
+            <div className="absolute inset-0 z-0 flex items-center justify-center opacity-[0.03] pointer-events-none">
+                <div className="w-full h-full border-x border-white flex justify-center max-w-7xl">
+                    <div className="w-[33%] h-full border-x border-white"></div>
                 </div>
             </div>
-            <div className="absolute top-1/4 left-0 w-96 h-96 bg-accent-primary/20 rounded-full blur-[120px] -z-10"></div>
-            <div className="absolute bottom-0 right-0 w-[30rem] h-[30rem] bg-accent-secondary/10 rounded-full blur-[150px] -z-10"></div>
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="absolute top-0 right-1/4 w-[40rem] h-[40rem] bg-accent-primary/10 rounded-full blur-[120px] -z-10"></div>
+            <div className="absolute bottom-1/4 left-1/4 w-[30rem] h-[30rem] bg-accent-secondary/10 rounded-full blur-[100px] -z-10"></div>
+
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
                 <div className="lg:grid lg:grid-cols-12 lg:gap-16 items-center">
 
                     {/* Text Content */}
                     <div className="lg:col-span-6 text-center lg:text-left mb-16 lg:mb-0">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-secondary/10 border border-accent-secondary/20 text-accent-secondary text-xs font-bold uppercase tracking-widest mb-6">
-                            <span className="w-2 h-2 rounded-full bg-accent-secondary animate-pulse"></span>
-                            Hackathon MVP
+                        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-slate-300 text-xs font-semibold uppercase tracking-widest mb-8 backdrop-blur-md">
+                            <span className="relative flex h-2 w-2">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-secondary opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-accent-secondary"></span>
+                            </span>
+                            Next-Gen Cricket Analytics
                         </div>
-                        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight mb-6 leading-[1.1]">
-                            Measuring <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-primary to-accent-secondary">True Impact</span> in Cricket
+                        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-light text-white tracking-tight mb-6 leading-[1.1]">
+                            Cricket's <br className="hidden sm:block" />
+                            <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-accent-primary to-accent-secondary">True Impact</span>
+                            <br className="hidden sm:block" /> Revealed.
                         </h1>
-                        <p className="text-lg sm:text-xl text-slate-400 mb-10 leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                            Traditional statistics like runs and wickets do not always show the real influence a player has on a match.
-                            <br /><br />
-                            Our <strong className="text-slate-200">Impact Metric</strong> analyzes performance, match context, and pressure to determine how much a player truly impacts the game.
+                        <p className="text-lg sm:text-xl text-slate-400 mb-10 leading-relaxed max-w-2xl mx-auto lg:mx-0 font-light">
+                            Move beyond traditional averages and strike rates. Our advanced metric isolates a player's genuine match-winning contribution under pressure.
                         </p>
-                        <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                        <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-5">
                             <button
                                 onClick={() => setCurrentRoute('calculator')}
-                                className="w-full sm:w-auto px-8 py-4 rounded-xl font-bold text-white bg-accent-primary hover:bg-indigo-500 shadow-[0_0_30px_rgba(79,70,229,0.3)] hover:shadow-[0_0_40px_rgba(79,70,229,0.5)] transition-all hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-2"
+                                className="w-full sm:w-auto px-8 py-4 rounded-full font-semibold text-slate-900 bg-white hover:bg-slate-200 transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-3 shadow-[0_0_20px_rgba(255,255,255,0.2)]"
                             >
-                                Try the Impact Calculator
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
+                                Calculate Impact
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
                             </button>
                             <button
                                 onClick={() => setCurrentRoute('calculator')}
-                                className="w-full sm:w-auto px-8 py-4 rounded-xl font-bold text-slate-300 bg-card border border-white/10 hover:bg-slate-800 hover:text-white transition-all hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-2"
+                                className="w-full sm:w-auto px-8 py-4 rounded-full font-medium text-white border border-white/20 hover:border-white/40 hover:bg-white/5 transition-all flex items-center justify-center"
                             >
-                                View Impact Score
+                                View Demo
                             </button>
                         </div>
                     </div>
 
-                    {/* Visual Analytics Illustration */}
-                    <div className="lg:col-span-6 relative">
-                        <div className="relative rounded-[2.5rem] bg-card/40 backdrop-blur-xl border border-white/10 p-2 shadow-2xl p-6 overflow-hidden group">
-                            <div className="absolute inset-0 bg-gradient-to-br from-accent-primary/10 to-accent-secondary/10 opacity-50 group-hover:opacity-100 transition-opacity duration-700"></div>
+                    {/* Clean Minimalist Visual */}
+                    <div className="lg:col-span-6 relative flex justify-center items-center">
+                        <div className="relative w-80 h-80 sm:w-[400px] sm:h-[400px] flex items-center justify-center">
 
-                            {/* Abstract Graphic representing Analytics + Cricket */}
-                            <div className="relative z-10 w-full aspect-[4/3] flex flex-col items-center justify-center">
-                                {/* Gauge Preview */}
-                                <div className="relative w-48 h-48 mb-6">
-                                    <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
-                                        {/* Background Circle */}
-                                        <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="10" strokeLinecap="round" strokeDasharray="212" strokeDashoffset="70" />
-                                        {/* Colored Arc */}
-                                        <circle cx="50" cy="50" r="45" fill="none" stroke="url(#gradient)" strokeWidth="10" strokeLinecap="round" strokeDasharray="212" strokeDashoffset="120" className="drop-shadow-[0_0_10px_rgba(79,70,229,0.8)]" />
-                                        <defs>
-                                            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                                <stop offset="0%" stopColor="#06B6D4" />
-                                                <stop offset="100%" stopColor="#4F46E5" />
-                                            </linearGradient>
-                                        </defs>
-                                    </svg>
-                                    <div className="absolute inset-0 flex flex-col items-center justify-center mt-4">
-                                        <span className="text-4xl font-black text-white drop-shadow-md">87<span className="text-xl text-slate-400">.4</span></span>
-                                        <span className="text-[10px] font-bold text-accent-secondary uppercase tracking-widest mt-1">Impact</span>
+                            {/* Outer Ambient Glow */}
+                            <div className="absolute inset-0 bg-gradient-to-tr from-accent-primary/20 to-accent-secondary/20 rounded-full blur-[80px] -z-10 animate-pulse-glow"></div>
+
+                            {/* Main Data Ring Container */}
+                            <div className="relative w-full h-full rounded-full border border-white/10 bg-black/40 backdrop-blur-2xl shadow-2xl flex items-center justify-center group overflow-hidden hover:border-white/20 transition-all duration-700">
+
+                                {/* Inner Grid Lines */}
+                                <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at center, rgba(255,255,255,0.1) 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
+
+                                {/* Rotating Arc Ring */}
+                                <svg className="absolute w-[90%] h-[90%] inset-auto animate-[spin_15s_linear_infinite]" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" strokeWidth="0.2" className="text-white/20" />
+                                    <circle cx="50" cy="50" r="48" fill="none" stroke="url(#arc-gradient)" strokeWidth="1.5" strokeDasharray="150" strokeDashoffset="0" strokeLinecap="round" className="drop-shadow-[0_0_8px_rgba(79,70,229,0.8)]" />
+                                    <defs>
+                                        <linearGradient id="arc-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" stopColor="#06B6D4" />
+                                            <stop offset="100%" stopColor="#4F46E5" />
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+
+                                <svg className="absolute w-[75%] h-[75%] inset-auto animate-[spin_20s_linear_infinite_reverse]" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2 6" className="text-white/30" />
+                                </svg>
+
+                                {/* Core Score Container */}
+                                <div className="relative flex flex-col items-center justify-center z-10 scale-90 sm:scale-100 transition-transform duration-500 group-hover:scale-105">
+                                    <div className="absolute -inset-10 bg-gradient-to-b from-white/5 to-transparent rounded-full blur-xl pointer-events-none"></div>
+                                    <div className="text-sm font-semibold text-accent-secondary uppercase tracking-[0.4em] mb-2 opacity-80">
+                                        Impact Metric
+                                    </div>
+                                    <div className="text-7xl sm:text-8xl font-black text-white tracking-tighter drop-shadow-2xl flex items-start">
+                                        87<span className="text-3xl sm:text-4xl text-slate-400 font-medium mt-2">.4</span>
+                                    </div>
+
+                                    {/* Mini sparkline underneath score */}
+                                    <div className="w-32 h-10 mt-6 opacity-80 border-b border-white/10 pb-2 relative">
+                                        {/* Simple dynamic bar chart abstraction */}
+                                        <div className="absolute bottom-2 left-0 w-full h-full flex items-end justify-between gap-1 px-2">
+                                            {[40, 65, 45, 80, 55, 90, 75, 100].map((h, i) => (
+                                                <div key={i} className="w-full bg-accent-primary/50 hover:bg-accent-primary rounded-t-sm transition-all duration-300" style={{ height: `${h}%` }}></div>
+                                            ))}
+                                        </div>
                                     </div>
                                 </div>
+                            </div>
 
-                                {/* Abstract 'Stumps' Data Bars */}
-                                <div className="flex items-end gap-3 h-24 mt-4 w-full justify-center opacity-80">
-                                    <div className="w-4 bg-slate-700 rounded-t-sm h-12 relative overflow-hidden"><div className="absolute bottom-0 w-full h-full bg-accent-secondary/50 transform origin-bottom scale-y-50"></div></div>
-                                    <div className="w-4 bg-slate-700 rounded-t-sm h-20 relative overflow-hidden"><div className="absolute bottom-0 w-full h-full bg-accent-primary/50 transform origin-bottom scale-y-75 shadow-[0_0_15px_rgba(79,70,229,1)]"></div></div>
-                                    <div className="w-4 bg-slate-700 rounded-t-sm h-16 relative overflow-hidden"><div className="absolute bottom-0 w-full h-full bg-accent-secondary/50 transform origin-bottom scale-y-60"></div></div>
-                                </div>
-
-                                {/* Orbiting element (Ball metaphor) */}
-                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 border border-white/5 rounded-full animate-spin" style={{ animationDuration: '10s', animationTimingFunction: 'linear' }}>
-                                    <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-red-500 rounded-full shadow-[0_0_10px_rgba(239,68,68,0.8)]"></div>
+                            {/* Floating minimalist data chips */}
+                            <div className="absolute top-[5%] -left-[15%] sm:-left-[20%] z-20 bg-slate-900/60 border border-white/10 backdrop-blur-xl px-5 py-3 rounded-2xl shadow-2xl animate-float group/chip cursor-default" style={{ animationDelay: '0s' }}>
+                                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-accent-primary/0 to-accent-primary/10 opacity-0 group-hover/chip:opacity-100 transition-opacity"></div>
+                                <div className="text-[10px] text-slate-400 uppercase tracking-widest mb-1 font-semibold">Contextual Boost</div>
+                                <div className="text-base font-bold text-white flex items-center gap-2">
+                                    <div className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]"></div>
+                                    +24.5%
                                 </div>
                             </div>
-                        </div>
 
-                        {/* Floating Metric Cards */}
-                        <div className="absolute -left-8 top-12 bg-card/80 backdrop-blur-md border border-white/10 p-4 rounded-2xl shadow-xl animate-float" style={{ animationDelay: '0s' }}>
-                            <div className="flex items-center gap-3">
-                                <div className="w-8 h-8 rounded-full bg-accent-secondary/20 flex items-center justify-center text-accent-secondary">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2" /></svg>
-                                </div>
-                                <div>
-                                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Contextual</p>
-                                    <p className="text-sm font-black text-white">+24.5% Boost</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="absolute -right-4 bottom-12 bg-card/80 backdrop-blur-md border border-white/10 p-4 rounded-2xl shadow-xl animate-float" style={{ animationDelay: '1.5s' }}>
-                            <div className="flex items-center gap-3">
-                                <div className="w-8 h-8 rounded-full bg-accent-primary/20 flex items-center justify-center text-accent-primary">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>
-                                </div>
-                                <div>
-                                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Pressure</p>
-                                    <p className="text-sm font-black text-white">High Variance</p>
+                            <div className="absolute bottom-[15%] -right-[5%] sm:-right-[10%] bg-slate-900/60 border border-white/10 backdrop-blur-xl px-5 py-3 rounded-2xl shadow-2xl animate-float group/chip cursor-default" style={{ animationDelay: '1.5s' }}>
+                                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-accent-secondary/0 to-accent-secondary/10 opacity-0 group-hover/chip:opacity-100 transition-opacity"></div>
+                                <div className="text-[10px] text-slate-400 uppercase tracking-widest mb-1 font-semibold">Match Pressure</div>
+                                <div className="text-base font-bold text-white flex items-center gap-2">
+                                    <svg className="w-4 h-4 text-accent-secondary drop-shadow-[0_0_5px_rgba(139,92,246,0.8)]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                                    High Variance
                                 </div>
                             </div>
                         </div>
