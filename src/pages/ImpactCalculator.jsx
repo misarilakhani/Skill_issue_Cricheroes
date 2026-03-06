@@ -172,7 +172,7 @@ export function ImpactCalculator({ setCurrentRoute }) {
                     <ProfileRadar breakdown={res.breakdown} theme={themeCls.meterTheme} />
                 </div>
 
-                <div className="flex flex-col lg:flex-row gap-4 mt-6">
+                <div className={`grid grid-cols-1 ${!result2 ? 'lg:grid-cols-2' : ''} gap-4 mt-6 items-stretch`}>
                     <ScoreStoryCard story={story} isPlayer2={isPlayer2} />
                     <PressureAnalysisCard analysis={pressureAnalysis} isPlayer2={isPlayer2} />
                 </div>

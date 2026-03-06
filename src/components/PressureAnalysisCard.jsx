@@ -27,15 +27,15 @@ export function PressureAnalysisCard({ analysis, isPlayer2 = false }) {
     }
 
     return (
-        <div className="glass-panel p-6 rounded-3xl relative overflow-hidden group flex-1 flex flex-col mt-4">
+        <div className="glass-panel p-6 rounded-3xl relative overflow-hidden group w-full h-full flex flex-col">
             <div className={`absolute bottom-0 left-0 w-32 h-32 rounded-full blur-[60px] -z-10 transition-colors duration-700 ${themeCls.glow} ${themeCls.glowHover}`}></div>
 
-            <div className="flex items-center justify-between mb-5 border-b border-white/5 pb-3">
-                <div className="flex items-center gap-3">
+            <div className="flex items-start justify-between mb-5 border-b border-white/5 pb-3">
+                <div className="flex items-start gap-3">
                     <div className={`relative flex items-center justify-center p-2 rounded-xl border ${themeCls.iconWrapper}`}>
                         <Zap className={`w-5 h-5 relative z-10 ${themeCls.icon}`} />
                     </div>
-                    <h3 className={`text-lg font-black tracking-wide ${themeCls.title}`}>
+                    <h3 className={`text-lg font-black tracking-wide mt-1 ${themeCls.title}`}>
                         Pressure / Clutch Analysis
                     </h3>
                 </div>
@@ -63,7 +63,7 @@ export function PressureAnalysisCard({ analysis, isPlayer2 = false }) {
                 </p>
             </div>
 
-            <div className="space-y-2 mt-auto">
+            <div className="space-y-2 mt-auto pt-4">
                 {analysis.reasons && analysis.reasons.map((reason, idx) => (
                     <div key={idx} className="flex items-start gap-2">
                         <div className={`w-1.5 h-1.5 rounded-full mt-1.5 shrink-0 ${themeCls.glowHover.replace("group-hover:", "")}`}></div>

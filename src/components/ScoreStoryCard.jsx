@@ -14,14 +14,14 @@ export function ScoreStoryCard({ story, isPlayer2 = false }) {
     };
 
     return (
-        <div className="glass-panel p-6 rounded-3xl relative overflow-hidden group flex-1 flex flex-col mt-4">
+        <div className="glass-panel p-6 rounded-3xl relative overflow-hidden group w-full h-full flex flex-col">
             <div className={`absolute top-0 right-0 w-32 h-32 rounded-full blur-[60px] -z-10 transition-colors duration-700 ${themeCls.glow} ${themeCls.glowHover}`}></div>
 
-            <div className="flex items-center gap-3 mb-5 border-b border-white/5 pb-3">
+            <div className="flex items-start gap-3 mb-5 border-b border-white/5 pb-3">
                 <div className={`relative flex items-center justify-center p-2 rounded-xl border ${themeCls.iconWrapper}`}>
                     <Target className={`w-5 h-5 relative z-10 ${themeCls.icon}`} />
                 </div>
-                <h3 className={`text-lg font-black tracking-wide ${themeCls.title}`}>
+                <h3 className={`text-lg font-black tracking-wide mt-1 ${themeCls.title}`}>
                     {story.title || "Story Behind the Score"}
                 </h3>
             </div>
@@ -37,8 +37,8 @@ export function ScoreStoryCard({ story, isPlayer2 = false }) {
                 ))}
             </div>
 
-            <div className={`mt-auto pt-4 border-t border-white/5 flex gap-2 items-center text-sm font-semibold italic opacity-90 ${themeCls.icon}`}>
-                <AlertCircle className="w-4 h-4 shrink-0" />
+            <div className={`mt-auto pt-4 border-t border-white/5 flex gap-2 items-start text-sm font-semibold italic opacity-90 ${themeCls.icon}`}>
+                <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
                 <p>"{story.summary}"</p>
             </div>
         </div>
