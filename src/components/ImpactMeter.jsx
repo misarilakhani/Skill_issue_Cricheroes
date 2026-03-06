@@ -33,14 +33,15 @@ export function ImpactMeter({ score, animate = true, colorTheme = 'default' }) {
         return 'url(#gradient-avg)';
     };
 
-    // SVG calculations for a semicicle dial
-    const radius = 90;
-    const backgroundStrokeWidth = 16;
-    const foregroundStrokeWidth = 16;
-    const gap = 6; // gap between the two strokes
+    const backgroundStrokeWidth = 14;
+    const foregroundStrokeWidth = 10;
+    const gap = 2; // small inner gap
 
     const backgroundRadius = radius - backgroundStrokeWidth * 2;
-    const foregroundRadius = backgroundRadius - gap - (backgroundStrokeWidth / 2) - (foregroundStrokeWidth / 2);
+    // We want the foreground arc to be centered INSIDE the track of the background arc.
+    // The background arc's track goes from (bgRadius - bgStrokeW/2) to (bgRadius + bgStrokeW/2).
+    // So the exact visual center line of the background arc is just `backgroundRadius`.
+    const foregroundRadius = backgroundRadius;
 
     const bgCircumference = backgroundRadius * 2 * Math.PI;
     const fgCircumference = foregroundRadius * 2 * Math.PI;
@@ -101,6 +102,7 @@ export function ImpactMeter({ score, animate = true, colorTheme = 'default' }) {
                     strokeWidth={backgroundStrokeWidth}
                     strokeDasharray={bgStrokeDasharray}
                     style={{ strokeDashoffset: backgroundOffset }}
+                    strokeLinecap="round"
                     r={backgroundRadius}
                     cx={radius}
                     cy={radius}
@@ -127,11 +129,11 @@ export function ImpactMeter({ score, animate = true, colorTheme = 'default' }) {
             </svg>
 
             {/* Center Text positioned cleanly inside the arc */}
-            <div className="absolute top-[80px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none flex flex-col items-center w-full">
-                <div className={`text-5xl sm:text-6xl font-black ${getColor(score)} transition-colors duration-1000 tracking-tighter drop-shadow-md leading-none`}>
+            <div className="absolute top-[85px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none flex flex-col items-center w-full">
+                <div className={`text-5xl sm:text-[64px] font-black ${getColor(score)} transition-colors duration-1000 tracking-tighter drop-shadow-md leading-none`}>
                     {Math.round(displayScore)}
                 </div>
-                <div className="text-slate-400 text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] mt-1 sm:mt-2 opacity-80">
+                <div className="text-slate-400 text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] mt-2 sm:mt-3 opacity-80">
                     Impact
                 </div>
             </div>
