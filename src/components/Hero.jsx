@@ -1,13 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { HistoryModal } from './HistoryModal';
 
 export function Hero({ setCurrentRoute }) {
     const [showHistory, setShowHistory] = useState(false);
+    const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+    const heroRef = useRef(null);
+
+    // Track mouse movement over the hero section
+    const handleMouseMove = (e) => {
+        if (!heroRef.current) return;
+        const rect = heroRef.current.getBoundingClientRect();
+        // Calculate mouse position relative to center of the section (-1 to 1)
+        const x = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
+        const y = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
+        setMousePos({ x, y });
+    };
+
+    const handleMouseLeave = () => {
+        // Smoothly return to center
+        setMousePos({ x: 0, y: 0 });
+    };
 
     return (
         <>
             {showHistory && <HistoryModal onClose={() => setShowHistory(false)} />}
-            <div className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden min-h-screen flex items-center justify-center">
+            <div
+                ref={heroRef}
+                onMouseMove={handleMouseMove}
+                onMouseLeave={handleMouseLeave}
+                className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden min-h-screen flex items-center justify-center cursor-crosshair group/hero"
+            >
+                {/* Custom glowing cursor follower (only visible on desktop hover) */}
+                <div
+                    className="hidden lg:block absolute w-8 h-8 rounded-full border border-accent-secondary/50 bg-accent-primary/10 backdrop-blur-sm pointer-events-none z-50 mix-blend-screen transition-transform duration-75"
+                    style={{
+                        left: '50%', top: '50%',
+                        transform: `translate(calc(-50% + ${mousePos.x * 50}vw), calc(-50% + ${mousePos.y * 50}vh)) scale(1.5)`
+                    }}
+                >
+                    <div className="absolute inset-0 rounded-full animate-ping bg-accent-secondary/30"></div>
+                </div>
+
                 {/* Minimal Background Elements */}
                 <div className="absolute inset-0 z-0 flex items-center justify-center opacity-[0.03] pointer-events-none">
                     <div className="w-full h-full border-x border-white flex justify-center max-w-7xl">
@@ -54,10 +87,19 @@ export function Hero({ setCurrentRoute }) {
                             <div className="relative w-80 h-80 sm:w-[400px] sm:h-[400px] flex items-center justify-center">
 
                                 {/* Outer Ambient Glow */}
-                                <div className="absolute inset-0 bg-gradient-to-tr from-accent-primary/20 to-accent-secondary/20 rounded-full blur-[80px] -z-10 animate-pulse-glow"></div>
+                                <div className="absolute inset-0 bg-gradient-to-tr from-accent-primary/20 to-accent-secondary/20 rounded-full blur-[80px] -z-10 animate-pulse-glow"
+                                    style={{ transform: `translate(${mousePos.x * -10}px, ${mousePos.y * -10}px)` }}
+                                ></div>
 
-                                {/* Main Data Ring Container */}
-                                <div className="relative w-full h-full rounded-full border border-white/10 bg-black/40 backdrop-blur-2xl shadow-2xl flex items-center justify-center group overflow-hidden hover:border-white/20 transition-all duration-700">
+                                {/* Main Data Ring Container with 3D Parallax */}
+                                <div
+                                    className="relative w-full h-full rounded-full border border-white/10 bg-black/40 backdrop-blur-2xl shadow-2xl flex items-center justify-center group overflow-hidden hover:border-white/20 transition-all duration-300 ease-out"
+                                    style={{
+                                        transform: `perspective(1000px) rotateX(${mousePos.y * -15}deg) rotateY(${mousePos.x * 15}deg) translateZ(10px)`,
+                                        boxShadow: `${mousePos.x * -10}px ${mousePos.y * -10}px 30px rgba(0,0,0,0.5), inset 0 0 20px rgba(255,255,255,0.05)`
+                                    }}
+                                >
+
 
                                     {/* Inner Grid Lines */}
                                     <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at center, rgba(255,255,255,0.1) 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
@@ -78,8 +120,11 @@ export function Hero({ setCurrentRoute }) {
                                         <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2 6" className="text-white/30" />
                                     </svg>
 
-                                    {/* Core Score Container */}
-                                    <div className="relative flex flex-col items-center justify-center z-10 scale-90 sm:scale-100 transition-transform duration-500 group-hover:scale-105">
+                                    {/* Core Score Container with opposing parallax for depth */}
+                                    <div
+                                        className="relative flex flex-col items-center justify-center z-10 transition-transform duration-300 ease-out"
+                                        style={{ transform: `translateZ(30px) translate(${mousePos.x * 10}px, ${mousePos.y * 10}px)` }}
+                                    >
                                         <div className="absolute -inset-10 bg-gradient-to-b from-white/5 to-transparent rounded-full blur-xl pointer-events-none"></div>
                                         <div className="text-sm font-semibold text-accent-secondary uppercase tracking-[0.4em] mb-2 opacity-80">
                                             Impact Metric
@@ -100,8 +145,14 @@ export function Hero({ setCurrentRoute }) {
                                     </div>
                                 </div>
 
-                                {/* Floating minimalist data chips */}
-                                <div className="absolute top-[5%] -left-[15%] sm:-left-[20%] z-20 bg-slate-900/60 border border-white/10 backdrop-blur-xl px-5 py-3 rounded-2xl shadow-2xl animate-float group/chip cursor-default" style={{ animationDelay: '0s' }}>
+                                {/* Floating minimalist data chips with heavier parallax */}
+                                <div
+                                    className="absolute top-[5%] -left-[15%] sm:-left-[20%] z-20 bg-slate-900/60 border border-white/10 backdrop-blur-xl px-5 py-3 rounded-2xl shadow-2xl animate-float group/chip cursor-default transition-transform duration-300 ease-out"
+                                    style={{
+                                        animationDelay: '0s',
+                                        transform: `translate(${mousePos.x * -25}px, ${mousePos.y * -25}px)`
+                                    }}
+                                >
                                     <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-accent-primary/0 to-accent-primary/10 opacity-0 group-hover/chip:opacity-100 transition-opacity"></div>
                                     <div className="text-[10px] text-slate-400 uppercase tracking-widest mb-1 font-semibold">Contextual Boost</div>
                                     <div className="text-base font-bold text-white flex items-center gap-2">
@@ -109,7 +160,13 @@ export function Hero({ setCurrentRoute }) {
                                     </div>
                                 </div>
 
-                                <div className="absolute bottom-[15%] -right-[5%] sm:-right-[10%] bg-slate-900/60 border border-white/10 backdrop-blur-xl px-5 py-3 rounded-2xl shadow-2xl animate-float group/chip cursor-default" style={{ animationDelay: '1.5s' }}>
+                                <div
+                                    className="absolute bottom-[15%] -right-[5%] sm:-right-[10%] bg-slate-900/60 border border-white/10 backdrop-blur-xl px-5 py-3 rounded-2xl shadow-2xl animate-float group/chip cursor-default transition-transform duration-300 ease-out"
+                                    style={{
+                                        animationDelay: '1.5s',
+                                        transform: `translate(${mousePos.x * -15}px, ${mousePos.y * -15}px)`
+                                    }}
+                                >
                                     <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-accent-secondary/0 to-accent-secondary/10 opacity-0 group-hover/chip:opacity-100 transition-opacity"></div>
                                     <div className="text-[10px] text-slate-400 uppercase tracking-widest mb-1 font-semibold">Match Pressure</div>
                                     <div className="text-base font-bold text-white flex items-center gap-2">
