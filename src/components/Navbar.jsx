@@ -20,11 +20,16 @@ export function Navbar({ currentRoute, setCurrentRoute }) {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-20">
                         {/* Logo */}
-                        <div className="flex-shrink-0 flex items-center gap-2 cursor-pointer" onClick={() => setCurrentRoute('landing')}>
-                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-accent-primary to-accent-secondary flex items-center justify-center shadow-[0_0_15px_rgba(79,70,229,0.3)]">
-                                <Activity className="w-6 h-6 text-white" />
+                        <div className="flex items-center gap-2 group cursor-pointer" onClick={() => setCurrentRoute('landing')}>
+                            <div className="relative">
+                                <div className="absolute -inset-1 bg-gradient-to-r from-accent-primary to-accent-secondary rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                                <div className="relative bg-slate-900 p-2 rounded-lg border border-white/10 group-hover:border-white/20 transition-colors">
+                                    <Activity className="w-6 h-6 text-accent-primary" />
+                                </div>
                             </div>
-                            <span className="text-2xl font-black text-white tracking-tight">Impact<span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-primary to-accent-secondary">Metric</span></span>
+                            <span className="text-2xl font-black text-white tracking-tighter">
+                                Cricentrix<span className="text-accent-primary">.</span>
+                            </span>
                         </div>
 
                         {/* Desktop Menu */}

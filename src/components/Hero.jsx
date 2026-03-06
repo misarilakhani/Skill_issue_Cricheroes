@@ -116,7 +116,7 @@ export function Hero({ setCurrentRoute }) {
                                     >
                                         <div className="absolute -inset-10 bg-gradient-to-b from-white/5 to-transparent rounded-full blur-xl pointer-events-none"></div>
                                         <div className="text-sm font-semibold text-accent-secondary uppercase tracking-[0.4em] mb-2 opacity-80">
-                                            Impact Metric
+                                            Cricentrix
                                         </div>
                                         <div className="text-7xl sm:text-8xl font-black text-white tracking-tighter drop-shadow-2xl flex items-start">
                                             87<span className="text-3xl sm:text-4xl text-slate-400 font-medium mt-2">.4</span>

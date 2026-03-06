@@ -30,6 +30,7 @@ export function ImpactCalculator({ setCurrentRoute }) {
 
     const [result, setResult] = useState(null);
     const [result2, setResult2] = useState(null);
+    const [showAdvanced, setShowAdvanced] = useState(false);
 
     useEffect(() => {
         async function init() {
@@ -271,7 +272,7 @@ export function ImpactCalculator({ setCurrentRoute }) {
 
                     <div className="text-center md:text-left mb-8">
                         <h2 className="text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-slate-100 to-slate-400 tracking-tight">
-                            Analyze Player Impact
+                            Analyze Performance with Cricentrix
                         </h2>
                         <p className="text-sm text-slate-400 mt-2 font-medium">
                             Select players to generate their 0-100 impact score based on recent performances, context, and pressure.
@@ -374,8 +375,22 @@ export function ImpactCalculator({ setCurrentRoute }) {
                             )}
                         </div>
 
+                        {/* Advanced Analytics Toggle */}
                         {!result2 && (
-                            <div className="space-y-6 mt-8 animate-in fade-in duration-1000">
+                            <div className="mt-8 flex justify-center">
+                                <button 
+                                    onClick={() => setShowAdvanced(!showAdvanced)}
+                                    className="bg-slate-800/50 hover:bg-slate-800 text-slate-300 font-bold py-3 px-8 rounded-2xl border border-white/5 transition-all active:scale-95 flex items-center gap-2 group"
+                                >
+                                    <Zap className={`w-4 h-4 transition-transform group-hover:rotate-12 ${showAdvanced ? 'text-accent-teal' : ''}`} />
+                                    {showAdvanced ? 'Hide Advanced Analysis' : 'Run Advanced Scenario Analysis'}
+                                </button>
+                            </div>
+                        )}
+
+                        {/* Advanced Analytics Sections */}
+                        {!result2 && showAdvanced && (
+                            <div className="space-y-6 mt-8 animate-in fade-in slide-in-from-top-4 duration-500">
                                 <TurningPointSection result={result} />
                                 <ScenarioAnalyzer result={result} />
                             </div>

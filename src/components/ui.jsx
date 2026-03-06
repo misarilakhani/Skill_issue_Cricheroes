@@ -13,7 +13,7 @@ export function Header() {
                     </div>
                     <div>
                         <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-300 via-blue-300 to-purple-400 tracking-tight">
-                            Impact Metric
+                            Cricentrix
                         </h1>
                         <p className="text-sm text-slate-400 font-medium tracking-wide">0-100 Player Evaluation</p>
                     </div>

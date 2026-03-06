@@ -10,7 +10,7 @@ export function HowToModal({ onClose, onGoToCalculator }) {
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
-                <h2 className="text-2xl font-black text-white mb-6">How to Use ImpactMetric</h2>
+                <h2 className="text-2xl font-black text-white mb-6">How to Use Cricentrix</h2>
                 <div className="space-y-4 mb-8">
                     <div className="flex gap-3 items-start text-slate-300">
                         <span className="flex-shrink-0 w-6 h-6 rounded-full bg-accent-primary/20 text-accent-primary flex items-center justify-center font-bold text-sm">1</span>
