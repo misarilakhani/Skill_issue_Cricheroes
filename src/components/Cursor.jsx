@@ -40,36 +40,42 @@ export function Cursor() {
         >
             <svg 
                 viewBox="0 0 100 100" 
-                className="w-full h-full drop-shadow-[0_0_6px_rgba(255,255,255,0.4)]"
+                className="w-full h-full drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]"
                 fill="none" 
                 xmlns="http://www.w3.org/2000/svg"
             >
+                {/* Dark Inner Fill to make white pop */}
+                <circle 
+                    cx="50" cy="50" r="45" 
+                    fill="#050505"
+                />
+
                 {/* Main Circle Outline */}
                 <circle 
                     cx="50" cy="50" r="45" 
                     stroke="white" 
-                    strokeWidth="4"
+                    strokeWidth="5"
                 />
                 
                 {/* Left Seam Line */}
                 <path 
                     d="M40 8V92" 
                     stroke="white" 
-                    strokeWidth="3" 
+                    strokeWidth="4" 
                 />
                 
                 {/* Right Seam Line */}
                 <path 
                     d="M60 8V92" 
                     stroke="white" 
-                    strokeWidth="3" 
+                    strokeWidth="4" 
                 />
                 
                 {/* Center Dotted Seam Line */}
                 <path 
                     d="M50 10V90" 
                     stroke="white" 
-                    strokeWidth="4" 
+                    strokeWidth="5" 
                     strokeDasharray="4 6"
                 />
             </svg>
