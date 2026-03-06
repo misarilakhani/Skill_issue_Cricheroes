@@ -98,15 +98,15 @@ export function ImpactMeter({ score, animate = true, colorTheme = 'default' }) {
 
                 {/* Background Arc */}
                 <circle
-                    stroke="#1e293b" // slate-800
+                    cx={radius}
+                    cy={radius}
+                    r={backgroundRadius}
                     fill="transparent"
+                    stroke="rgba(255,255,255,0.06)"
                     strokeWidth={backgroundStrokeWidth}
                     strokeDasharray={bgStrokeDasharray}
                     style={{ strokeDashoffset: backgroundOffset }}
                     strokeLinecap="round"
-                    r={backgroundRadius}
-                    cx={radius}
-                    cy={radius}
                     transform="rotate(180 90 90)"
                 />
 

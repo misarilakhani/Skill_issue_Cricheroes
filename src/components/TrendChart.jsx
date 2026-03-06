@@ -39,7 +39,7 @@ export function TrendChart({ data, data2 }) {
     const CustomTooltip = ({ active, payload }) => {
         if (active && payload && payload.length) {
             return (
-                <div className="bg-slate-900/90 backdrop-blur-md border border-slate-700/50 p-4 rounded-2xl shadow-xl transform transition-all scale-105 min-w-[150px]">
+                <div className="p-4 rounded-2xl min-w-[150px]" style={{ background: '#1F2937', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 8px 30px rgba(0,0,0,0.5)', backdropFilter: 'blur(12px)' }}>
                     {payload.map((entry, idx) => {
                         const isSecond = entry.dataKey === 'score2';
                         const pDate = isSecond ? entry.payload.date2 : entry.payload.date;
@@ -85,12 +85,12 @@ export function TrendChart({ data, data2 }) {
                 <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={chartData} margin={{ top: 20, right: 20, left: -20, bottom: 10 }} barSize={40}>
                         {gradientDef}
-                        <CartesianGrid strokeDasharray="3 3" stroke="#334155" vertical={false} opacity={0.4} />
-                        <XAxis dataKey="name" stroke="#64748b" fontSize={14} fontFamily="Outfit" fontWeight={600} tickLine={false} axisLine={false} dy={10} />
-                        <YAxis domain={[0, 100]} stroke="#64748b" fontSize={14} fontFamily="Outfit" fontWeight={600} tickLine={false} axisLine={false} tickFormatter={(val) => val === 0 ? '' : val} />
-                        <Tooltip content={<CustomTooltip />} cursor={{ fill: '#334155', opacity: 0.2 }} />
-                        <Bar dataKey="score" fill="#14b8a6" radius={[4, 4, 0, 0]} animationDuration={1000} />
-                        {data2 && <Bar dataKey="score2" fill="#fbbf24" radius={[4, 4, 0, 0]} animationDuration={1000} />}
+                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" vertical={false} />
+                        <XAxis dataKey="name" stroke="#4B5563" fontSize={13} fontFamily="Outfit" fontWeight={600} tickLine={false} axisLine={false} dy={10} />
+                        <YAxis domain={[0, 100]} stroke="#4B5563" fontSize={13} fontFamily="Outfit" fontWeight={600} tickLine={false} axisLine={false} tickFormatter={(val) => val === 0 ? '' : val} />
+                        <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(255,255,255,0.03)' }} />
+                        <Bar dataKey="score" fill="#14b8a6" radius={[6, 6, 0, 0]} animationDuration={800} />
+                        {data2 && <Bar dataKey="score2" fill="#fbbf24" radius={[6, 6, 0, 0]} animationDuration={800} />}
                     </BarChart>
                 </ResponsiveContainer>
             </div>
@@ -102,12 +102,12 @@ export function TrendChart({ data, data2 }) {
             <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={chartData} margin={{ top: 20, right: 20, left: -20, bottom: 20 }}>
                     {gradientDef}
-                    <CartesianGrid strokeDasharray="3 3" stroke="#334155" vertical={false} opacity={0.3} />
-                    <XAxis dataKey="name" stroke="#64748b" fontSize={12} fontFamily="Outfit" fontWeight={600} tickLine={false} axisLine={false} dy={15} />
-                    <YAxis domain={[0, 100]} stroke="#64748b" fontSize={12} fontFamily="Outfit" fontWeight={600} tickLine={false} axisLine={false} tickFormatter={(val) => val === 0 ? '' : val} />
-                    <Tooltip content={<CustomTooltip />} cursor={{ stroke: '#64748b', strokeWidth: 1, strokeDasharray: '5 5' }} />
-                    <Line type="linear" dataKey="score" stroke="#14b8a6" strokeWidth={4} activeDot={{ r: 8, fill: '#14b8a6', stroke: '#fff', strokeWidth: 3 }} dot={{ r: 4, fill: '#0f172a', stroke: '#14b8a6', strokeWidth: 2 }} animationDuration={2000} filter="url(#glow)" />
-                    {data2 && <Line type="linear" dataKey="score2" stroke="#fbbf24" strokeWidth={4} activeDot={{ r: 8, fill: '#fbbf24', stroke: '#fff', strokeWidth: 3 }} dot={{ r: 4, fill: '#0f172a', stroke: '#fbbf24', strokeWidth: 2 }} animationDuration={2000} filter="url(#glow2)" />}
+                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" vertical={false} />
+                    <XAxis dataKey="name" stroke="#4B5563" fontSize={12} fontFamily="Outfit" fontWeight={600} tickLine={false} axisLine={false} dy={15} />
+                    <YAxis domain={[0, 100]} stroke="#4B5563" fontSize={12} fontFamily="Outfit" fontWeight={600} tickLine={false} axisLine={false} tickFormatter={(val) => val === 0 ? '' : val} />
+                    <Tooltip content={<CustomTooltip />} cursor={{ stroke: 'rgba(255,255,255,0.08)', strokeWidth: 1, strokeDasharray: '4 4' }} />
+                    <Line type="monotone" dataKey="score" stroke="#14b8a6" strokeWidth={3} activeDot={{ r: 7, fill: '#14b8a6', stroke: '#0B0F1A', strokeWidth: 2 }} dot={{ r: 3, fill: '#0B0F1A', stroke: '#14b8a6', strokeWidth: 2 }} animationDuration={1200} filter="url(#glow)" />
+                    {data2 && <Line type="monotone" dataKey="score2" stroke="#fbbf24" strokeWidth={3} activeDot={{ r: 7, fill: '#fbbf24', stroke: '#0B0F1A', strokeWidth: 2 }} dot={{ r: 3, fill: '#0B0F1A', stroke: '#fbbf24', strokeWidth: 2 }} animationDuration={1200} filter="url(#glow2)" />}
                 </LineChart>
             </ResponsiveContainer>
         </div>

@@ -23,14 +23,14 @@ export function ProfileRadar({ breakdown, theme = 'teal' }) {
             <div className="w-full h-full mt-4">
                 <ResponsiveContainer width="100%" height="100%">
                     <RadarChart cx="50%" cy="50%" outerRadius="70%" data={data}>
-                        <PolarGrid stroke="#334155" />
+                        <PolarGrid stroke="rgba(255,255,255,0.05)" />
                         <PolarAngleAxis
                             dataKey="subject"
                             tick={{ fill: color.text, fontSize: 11, fontWeight: 600 }}
                         />
                         <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
                         <Tooltip
-                            contentStyle={{ backgroundColor: '#0f172a', borderColor: 'rgba(255,255,255,0.1)', borderRadius: '12px', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.5)' }}
+                            contentStyle={{ backgroundColor: '#1F2937', borderColor: 'rgba(255,255,255,0.1)', borderRadius: '12px', boxShadow: '0 8px 24px rgba(0,0,0,0.5)' }}
                             itemStyle={{ color: color.stroke, fontWeight: 'bold' }}
                             formatter={(value) => [`${value}/100`, 'Score']}
                         />

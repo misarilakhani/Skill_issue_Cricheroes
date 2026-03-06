@@ -4,7 +4,7 @@ import { Trophy, Activity, Target } from 'lucide-react';
 
 export function Header() {
     return (
-        <header className="sticky top-0 z-50 w-full border-b border-white/5 bg-darker/60 backdrop-blur-xl pb-4 pt-6 px-4 sm:px-6 lg:px-8 shadow-2xl">
+        <header className="sticky top-0 z-50 w-full pb-4 pt-6 px-4 sm:px-6 lg:px-8" style={{ background: 'rgba(11,15,26,0.85)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', borderBottom: '1px solid rgba(255,255,255,0.06)', boxShadow: '0 4px 24px rgba(0,0,0,0.4)' }}>
             <div className="max-w-7xl mx-auto flex items-center justify-between">
                 <div className="flex items-center gap-4">
                     <div className="bg-gradient-to-br from-accent-teal to-accent-blue p-3 rounded-2xl shadow-[0_0_20px_rgba(20,184,166,0.3)] animate-pulse-glow relative group">
@@ -42,7 +42,7 @@ export function MetricCard({ title, value, icon: Icon, colorClass, delay = 0 }) 
             <div className="flex items-start justify-between flex-wrap gap-2 mb-4 md:mb-6">
                 <h3 className="text-slate-400 text-[9px] min-[380px]:text-[10px] lg:text-xs font-black tracking-[0.15em] sm:tracking-[0.2em] uppercase pt-1 max-w-[65%]">{title}</h3>
                 {Icon && (
-                    <div className={cn("p-1.5 md:p-2 rounded-xl bg-slate-900/80 border border-white/5 group-hover:scale-110 transition-transform shadow-inner flex shrink-0 items-center justify-center", colorClass)}>
+                    <div className={cn("p-1.5 md:p-2 rounded-xl border border-white/5 group-hover:scale-110 transition-transform flex shrink-0 items-center justify-center", colorClass)} style={{ background: '#0B0F1A' }}>
                         <Icon className="w-4 h-4 md:w-5 md:h-5 drop-shadow-md" />
                     </div>
                 )}

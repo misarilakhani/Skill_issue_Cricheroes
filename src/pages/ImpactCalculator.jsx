@@ -256,19 +256,19 @@ export function ImpactCalculator({ setCurrentRoute }) {
 
     if (loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-darker">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-accent-teal"></div>
+            <div className="min-h-screen flex items-center justify-center">
+                <div className="animate-spin rounded-full h-12 w-12" style={{ border: '3px solid rgba(255,255,255,0.05)', borderTopColor: '#4F46E5' }}></div>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-darker text-slate-100 pb-20 overflow-x-hidden pt-24">
+        <div className="min-h-screen text-slate-100 pb-20 overflow-x-hidden pt-24 relative z-10">
             <Navbar currentRoute="calculator" setCurrentRoute={setCurrentRoute} />
             <main className="max-w-4xl lg:max-w-[70rem] mx-auto px-4 sm:px-6">
-                <div className="glass-panel p-8 rounded-[2rem] mb-10 overflow-hidden group relative">
-                    <div className="absolute inset-0 bg-gradient-to-r from-accent-teal/5 via-transparent to-accent-purple/5 opacity-0 group-hover:opacity-100 transition-all duration-1000 -z-10"></div>
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-accent-teal/10 rounded-full blur-[100px] -z-10"></div>
+                <div className="glass-panel p-8 rounded-[2rem] mb-10 overflow-hidden group relative border-accent-top">
+                    <div className="absolute inset-0 bg-gradient-to-br from-accent-primary/5 via-transparent to-accent-secondary/5 opacity-0 group-hover:opacity-100 transition-all duration-1000 -z-10"></div>
+                    <div className="absolute top-0 right-0 w-72 h-72 rounded-full blur-[100px] -z-10" style={{ background: 'radial-gradient(circle, rgba(79,70,229,0.12) 0%, transparent 70%)' }}></div>
 
                     <div className="text-center md:text-left mb-8">
                         <h2 className="text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-slate-100 to-slate-400 tracking-tight">
@@ -286,7 +286,10 @@ export function ImpactCalculator({ setCurrentRoute }) {
                                 <select
                                     value={selectedFormat}
                                     onChange={(e) => setSelectedFormat(e.target.value)}
-                                    className="w-full bg-slate-900/80 border border-slate-700/50 text-slate-200 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-accent-teal focus:border-transparent outline-none transition-all appearance-none cursor-pointer shadow-inner font-medium"
+                                    className="w-full rounded-2xl px-5 py-4 outline-none transition-all appearance-none font-semibold text-white"
+                                    style={{ background: '#111827', border: '1px solid rgba(255,255,255,0.08)', boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.3)' }}
+                                    onFocus={e => e.target.style.borderColor = 'rgba(79,70,229,0.6)'}
+                                    onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.08)'}
                                 >
                                     <option value="">All Formats</option>
                                     {formats.map(f => <option key={f} value={f}>{f}</option>)}
@@ -299,7 +302,10 @@ export function ImpactCalculator({ setCurrentRoute }) {
                             <select
                                 value={selectedPlayerId}
                                 onChange={(e) => setSelectedPlayerId(e.target.value)}
-                                className="w-full bg-slate-900/80 border border-slate-700/50 text-slate-200 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-accent-teal focus:border-transparent outline-none transition-all appearance-none cursor-pointer shadow-inner font-medium"
+                                className="w-full rounded-2xl px-5 py-4 outline-none transition-all appearance-none font-semibold text-white"
+                                style={{ background: '#111827', border: '1px solid rgba(255,255,255,0.08)', boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.3)' }}
+                                onFocus={e => e.target.style.borderColor = 'rgba(79,70,229,0.6)'}
+                                onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.08)'}
                             >
                                 {playersWithCounts.map(p => (
                                     <option key={p.playerId} value={p.playerId}>{p.playerName} ({p.matchCount})</option>
@@ -311,7 +317,10 @@ export function ImpactCalculator({ setCurrentRoute }) {
                             <div className={cn("md:col-span-3", formats.length === 0 && "md:col-span-4", "flex flex-col justify-end")}>
                                 <button
                                     onClick={() => { setIsCompareMode(true); if (playersWithCounts.length > 1) setSelectedPlayer2Id(playersWithCounts.find(p => p.playerId !== selectedPlayerId)?.playerId || 'none'); }}
-                                    className="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-2xl px-5 py-4 transition-all hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-2 border border-slate-700 hover:border-slate-500 shadow-sm"
+                                    className="w-full rounded-2xl px-5 py-4 transition-all hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-2 font-bold text-slate-300 hover:text-white"
+                                    style={{ background: '#1F2937', border: '1px solid rgba(255,255,255,0.08)' }}
+                                    onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)'}
+                                    onMouseLeave={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'}
                                 >
                                     Compare Player
                                 </button>
@@ -330,7 +339,10 @@ export function ImpactCalculator({ setCurrentRoute }) {
                                 <select
                                     value={selectedPlayer2Id}
                                     onChange={(e) => setSelectedPlayer2Id(e.target.value)}
-                                    className="w-full bg-slate-900/80 border border-slate-700/50 text-slate-200 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all appearance-none cursor-pointer shadow-inner font-medium"
+                                    className="w-full rounded-2xl px-5 py-4 outline-none transition-all appearance-none font-semibold text-white"
+                                    style={{ background: '#111827', border: '1px solid rgba(255,255,255,0.08)', boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.3)' }}
+                                    onFocus={e => e.target.style.borderColor = 'rgba(251,191,36,0.5)'}
+                                    onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.08)'}
                                 >
                                     <option value="none" disabled>Select Player 2</option>
                                     {playersWithCounts.map(p => (
@@ -343,11 +355,13 @@ export function ImpactCalculator({ setCurrentRoute }) {
                         <div className="md:col-span-3">
                             <button
                                 onClick={handleCalculate}
-                                className="w-full bg-gradient-to-r from-accent-primary to-accent-secondary hover:from-indigo-500 hover:to-cyan-400 text-white font-bold rounded-2xl px-5 py-4 transition-all hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-2 shadow-[0_10px_20px_-10px_rgba(79,70,229,0.5)] group overflow-hidden relative"
+                                className="w-full rounded-2xl px-5 py-4 transition-all hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-2 font-bold text-white group relative overflow-hidden"
+                                style={{ background: '#4F46E5', boxShadow: '0 0 24px rgba(79,70,229,0.4)' }}
+                                onMouseEnter={e => { e.currentTarget.style.background = '#4338CA'; e.currentTarget.style.boxShadow = '0 0 36px rgba(79,70,229,0.65)'; }}
+                                onMouseLeave={e => { e.currentTarget.style.background = '#4F46E5'; e.currentTarget.style.boxShadow = '0 0 24px rgba(79,70,229,0.4)'; }}
                             >
-                                <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
-                                <RefreshCw className="w-5 h-5 relative z-10 group-hover:rotate-180 transition-transform duration-500" />
-                                <span className="relative z-10 tracking-wide">Calculate</span>
+                                <RefreshCw className="w-5 h-5 group-hover:rotate-180 transition-transform duration-500" />
+                                <span className="tracking-widest uppercase text-sm font-black">Calculate</span>
                             </button>
                         </div>
                     </div>
@@ -378,7 +392,7 @@ export function ImpactCalculator({ setCurrentRoute }) {
                         {/* Advanced Analytics Toggle */}
                         {!result2 && (
                             <div className="mt-8 flex justify-center">
-                                <button 
+                                <button
                                     onClick={() => setShowAdvanced(!showAdvanced)}
                                     className="bg-slate-800/50 hover:bg-slate-800 text-slate-300 font-bold py-3 px-8 rounded-2xl border border-white/5 transition-all active:scale-95 flex items-center gap-2 group"
                                 >

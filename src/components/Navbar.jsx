@@ -16,49 +16,80 @@ export function Navbar({ currentRoute, setCurrentRoute }) {
                     }}
                 />
             )}
-            <nav className="fixed top-0 left-0 right-0 z-50 bg-darker/80 backdrop-blur-md border-b border-white/10 transition-all duration-300">
+            <nav className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+                style={{
+                    background: 'rgba(11,15,26,0.8)',
+                    backdropFilter: 'blur(24px)',
+                    WebkitBackdropFilter: 'blur(24px)',
+                    borderBottom: '1px solid rgba(255,255,255,0.06)',
+                    boxShadow: '0 4px 24px rgba(0,0,0,0.4)'
+                }}
+            >
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex items-center justify-between h-20">
+                    <div className="flex items-center justify-between h-[72px]">
+
                         {/* Logo */}
-                        <div className="flex items-center gap-2 group cursor-pointer" onClick={() => setCurrentRoute('landing')}>
+                        <div
+                            className="flex items-center gap-3 group cursor-pointer"
+                            onClick={() => setCurrentRoute('landing')}
+                        >
                             <div className="relative">
-                                <div className="absolute -inset-1 bg-gradient-to-r from-accent-primary to-accent-secondary rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-                                <div className="relative bg-slate-900 p-2 rounded-lg border border-white/10 group-hover:border-white/20 transition-colors">
-                                    <Activity className="w-6 h-6 text-accent-primary" />
+                                {/* Glow halo on hover */}
+                                <div className="absolute -inset-1.5 bg-gradient-to-r from-accent-primary/40 to-accent-secondary/40 rounded-xl blur opacity-0 group-hover:opacity-70 transition duration-500" />
+                                <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-[#1F2937] border border-white/10 group-hover:border-accent-primary/40 transition-all duration-300">
+                                    <Activity className="w-5 h-5 text-accent-primary" />
                                 </div>
                             </div>
-                            <span className="text-2xl font-black text-white tracking-tighter">
-                                Cricentrix<span className="text-accent-primary">.</span>
+                            <span className="text-[22px] font-black text-white tracking-tighter leading-none">
+                                Cricentrix<span className="text-accent-secondary">.</span>
                             </span>
                         </div>
 
-                        {/* Desktop Menu */}
-                        <div className="hidden md:flex items-center space-x-8">
+                        {/* Desktop nav */}
+                        <div className="hidden md:flex items-center gap-8">
                             <button
                                 onClick={() => setCurrentRoute('landing')}
-                                className={`text-sm font-medium transition-colors hover:text-white ${currentRoute === 'landing' ? 'text-white' : 'text-slate-400'}`}
+                                className="relative text-sm font-semibold tracking-wide transition-colors duration-200 group"
                             >
-                                Home
+                                <span className={currentRoute === 'landing' ? 'text-white' : 'text-slate-400 hover:text-white'}>
+                                    Home
+                                </span>
+                                {currentRoute === 'landing' && (
+                                    <span className="absolute -bottom-1 left-0 right-0 h-px bg-gradient-to-r from-accent-primary to-accent-secondary rounded-full" />
+                                )}
                             </button>
                             <button
                                 onClick={() => setCurrentRoute('calculator')}
-                                className={`text-sm font-medium transition-colors hover:text-white ${currentRoute === 'calculator' ? 'text-white' : 'text-slate-400'}`}
+                                className="relative text-sm font-semibold tracking-wide transition-colors duration-200"
                             >
-                                Impact Calculator
+                                <span className={currentRoute === 'calculator' ? 'text-white' : 'text-slate-400 hover:text-white'}>
+                                    Impact Calculator
+                                </span>
+                                {currentRoute === 'calculator' && (
+                                    <span className="absolute -bottom-1 left-0 right-0 h-px bg-gradient-to-r from-accent-primary to-accent-secondary rounded-full" />
+                                )}
                             </button>
+
+                            {/* CTA */}
                             <button
                                 onClick={() => setShowHowTo(true)}
-                                className="ml-4 inline-flex items-center justify-center px-6 py-2.5 border border-transparent rounded-full shadow-sm text-sm font-bold text-white bg-accent-primary hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-primary focus:ring-offset-darker transition-all hover:shadow-[0_0_20px_rgba(79,70,229,0.4)] active:scale-95"
+                                className="relative inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold text-white transition-all duration-300 active:scale-95 overflow-hidden group"
+                                style={{
+                                    background: '#4F46E5',
+                                    boxShadow: '0 0 20px rgba(79,70,229,0.35)'
+                                }}
+                                onMouseEnter={e => e.currentTarget.style.boxShadow = '0 0 30px rgba(79,70,229,0.6)'}
+                                onMouseLeave={e => e.currentTarget.style.boxShadow = '0 0 20px rgba(79,70,229,0.35)'}
                             >
-                                Try Demo
+                                <span className="relative z-10">Try Demo</span>
                             </button>
                         </div>
 
-                        {/* Mobile Menu Button (Simplified for MVP, defaults to Try Demo) */}
-                        <div className="md:hidden flex items-center">
+                        {/* Mobile */}
+                        <div className="md:hidden">
                             <button
                                 onClick={() => setShowHowTo(true)}
-                                className="inline-flex items-center justify-center px-4 py-2 border border-white/10 rounded-lg shadow-sm text-sm font-bold text-white bg-white/5 hover:bg-white/10 transition-all"
+                                className="px-4 py-2 rounded-lg text-sm font-bold text-white border border-white/10 bg-white/5 hover:bg-white/10 transition-all"
                             >
                                 Try Demo
                             </button>
