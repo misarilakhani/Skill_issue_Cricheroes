@@ -38,44 +38,44 @@ export function Cursor() {
                 transform: `translate3d(${position.x - 12}px, ${position.y - 12}px, 0) rotate(${(position.x + position.y) * 0.5}deg)`
             }}
         >
-            <svg 
-                viewBox="0 0 100 100" 
+            <svg
+                viewBox="0 0 100 100"
                 className="w-full h-full drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]"
-                fill="none" 
+                fill="none"
                 xmlns="http://www.w3.org/2000/svg"
             >
                 {/* Dark Inner Fill to make white pop */}
-                <circle 
-                    cx="50" cy="50" r="45" 
+                <circle
+                    cx="50" cy="50" r="45"
                     fill="#050505"
                 />
 
                 {/* Main Circle Outline */}
-                <circle 
-                    cx="50" cy="50" r="45" 
-                    stroke="white" 
+                <circle
+                    cx="50" cy="50" r="45"
+                    stroke="white"
                     strokeWidth="5"
                 />
-                
+
                 {/* Left Seam Line */}
-                <path 
-                    d="M40 8V92" 
-                    stroke="white" 
-                    strokeWidth="4" 
+                <path
+                    d="M40 8V92"
+                    stroke="white"
+                    strokeWidth="4"
                 />
-                
+
                 {/* Right Seam Line */}
-                <path 
-                    d="M60 8V92" 
-                    stroke="white" 
-                    strokeWidth="4" 
+                <path
+                    d="M60 8V92"
+                    stroke="white"
+                    strokeWidth="4"
                 />
-                
+
                 {/* Center Dotted Seam Line */}
-                <path 
-                    d="M50 10V90" 
-                    stroke="white" 
-                    strokeWidth="5" 
+                <path
+                    d="M50 10V90"
+                    stroke="white"
+                    strokeWidth="5"
                     strokeDasharray="4 6"
                 />
             </svg>
