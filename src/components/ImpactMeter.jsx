@@ -35,22 +35,28 @@ export function ImpactMeter({ score, animate = true, colorTheme = 'default' }) {
 
     // SVG calculations for a semicicle dial
     const radius = 90;
-    const strokeWidth = 16;
-    const normalizedRadius = radius - strokeWidth * 2;
-    const circumference = normalizedRadius * 2 * Math.PI;
+    const backgroundStrokeWidth = 16;
+    const foregroundStrokeWidth = 16;
+    const gap = 6; // gap between the two strokes
+
+    const backgroundRadius = radius - backgroundStrokeWidth * 2;
+    const foregroundRadius = backgroundRadius - gap - (backgroundStrokeWidth / 2) - (foregroundStrokeWidth / 2);
+
+    const bgCircumference = backgroundRadius * 2 * Math.PI;
+    const fgCircumference = foregroundRadius * 2 * Math.PI;
 
     // We rotate SVG 180deg (starts at 9 o'clock)
     // We want the dash to cover the top half (from 9 o'clock to 3 o'clock)
     // The dash array pattern is: DASH=circumference, GAP=circumference
-    const strokeDasharray = `${circumference} ${circumference}`;
+    const bgStrokeDasharray = `${bgCircumference} ${bgCircumference}`;
+    const fgStrokeDasharray = `${fgCircumference} ${fgCircumference}`;
 
     // For background to draw exactly half, we offset by circumference / 2
-    // So the dash starts halfway through its C-length dash.
-    const backgroundOffset = circumference / 2;
+    const backgroundOffset = bgCircumference / 2;
 
     // For dynamic value, we offset by C - X, where X is the mapped score length
-    const dashLength = (displayScore / 100) * (circumference / 2);
-    const valueOffset = circumference - dashLength;
+    const dashLength = (displayScore / 100) * (fgCircumference / 2);
+    const valueOffset = fgCircumference - dashLength;
 
     return (
         <div className="relative w-[180px] h-[110px] mx-auto mt-4 mb-2 flex flex-col items-center justify-center">
@@ -92,10 +98,10 @@ export function ImpactMeter({ score, animate = true, colorTheme = 'default' }) {
                 <circle
                     stroke="#1e293b" // slate-800
                     fill="transparent"
-                    strokeWidth={strokeWidth}
-                    strokeDasharray={strokeDasharray}
+                    strokeWidth={backgroundStrokeWidth}
+                    strokeDasharray={bgStrokeDasharray}
                     style={{ strokeDashoffset: backgroundOffset }}
-                    r={normalizedRadius}
+                    r={backgroundRadius}
                     cx={radius}
                     cy={radius}
                     transform="rotate(180 90 90)"
@@ -105,15 +111,15 @@ export function ImpactMeter({ score, animate = true, colorTheme = 'default' }) {
                 <circle
                     stroke={getGradientStroke(score)}
                     fill="transparent"
-                    strokeWidth={strokeWidth}
-                    strokeDasharray={strokeDasharray}
+                    strokeWidth={foregroundStrokeWidth}
+                    strokeDasharray={fgStrokeDasharray}
                     style={{
                         strokeDashoffset: valueOffset,
                         transition: 'stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1)',
                         filter: 'url(#glowMeter)'
                     }}
                     strokeLinecap="round"
-                    r={normalizedRadius}
+                    r={foregroundRadius}
                     cx={radius}
                     cy={radius}
                     transform="rotate(180 90 90)"
