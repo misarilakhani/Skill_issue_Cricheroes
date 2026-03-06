@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { HowToModal } from './HowToModal';
-import { Activity } from 'lucide-react';
+
 
 export function Navbar({ currentRoute, setCurrentRoute }) {
     const [showHowTo, setShowHowTo] = useState(false);
@@ -36,8 +36,8 @@ export function Navbar({ currentRoute, setCurrentRoute }) {
                             <div className="relative">
                                 {/* Glow halo on hover */}
                                 <div className="absolute -inset-1.5 bg-gradient-to-r from-accent-primary/40 to-accent-secondary/40 rounded-xl blur opacity-0 group-hover:opacity-70 transition duration-500" />
-                                <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-[#1F2937] border border-white/10 group-hover:border-accent-primary/40 transition-all duration-300">
-                                    <Activity className="w-5 h-5 text-accent-primary" />
+                                <div className="relative flex items-center justify-center w-10 h-10 rounded-xl overflow-hidden border border-white/10 group-hover:border-accent-primary/40 transition-all duration-300">
+                                    <img src="/logo.png" alt="Cricentrix Logo" className="w-10 h-10 object-cover" />
                                 </div>
                             </div>
                             <span className="text-[22px] font-black text-white tracking-tighter leading-none">
