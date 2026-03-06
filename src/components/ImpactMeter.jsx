@@ -121,7 +121,7 @@ export function ImpactMeter({ score, animate = true, colorTheme = 'default' }) {
             </svg>
 
             {/* Center Text positioned cleanly inside the arc */}
-            <div className="absolute top-[65%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none flex flex-col items-center">
+            <div className="absolute top-4 left-0 right-0 h-[110px] flex flex-col items-center justify-end pb-2 pointer-events-none">
                 <div className={`text-5xl sm:text-6xl font-black ${getColor(score)} transition-colors duration-1000 tracking-tighter drop-shadow-md leading-none`}>
                     {Math.round(displayScore)}
                 </div>
