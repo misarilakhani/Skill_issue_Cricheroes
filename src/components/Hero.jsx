@@ -48,12 +48,15 @@ export function Hero({ setCurrentRoute }) {
                                 Cricket Analytics Platform
                             </div>
 
-                            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight mb-6 leading-[1.05]">
+                            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-6 leading-[1.1]">
                                 Cricket's{' '}
                                 <br className="hidden sm:block" />
                                 <span
                                     className="text-transparent bg-clip-text"
-                                    style={{ backgroundImage: 'linear-gradient(135deg, #818cf8 0%, #06B6D4 100%)' }}
+                                    style={{
+                                        backgroundImage: 'linear-gradient(135deg, #818cf8 0%, #06B6D4 100%)',
+                                        filter: 'drop-shadow(0 0 18px rgba(6,182,212,0.4))',
+                                    }}
                                 >
                                     True Impact
                                 </span>

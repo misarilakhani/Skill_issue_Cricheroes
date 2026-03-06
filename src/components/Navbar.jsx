@@ -40,8 +40,19 @@ export function Navbar({ currentRoute, setCurrentRoute }) {
                                     <img src="/logo.png" alt="Cricentrix Logo" className="w-10 h-10 object-cover" />
                                 </div>
                             </div>
-                            <span className="text-[22px] font-black text-white tracking-tighter leading-none">
-                                Cricentrix<span className="text-accent-secondary">.</span>
+                            <span
+                                className="font-black tracking-tight leading-none select-none"
+                                style={{
+                                    fontSize: '28px',
+                                    background: 'linear-gradient(90deg, #ffffff 40%, #06B6D4 100%)',
+                                    WebkitBackgroundClip: 'text',
+                                    WebkitTextFillColor: 'transparent',
+                                    backgroundClip: 'text',
+                                    filter: 'drop-shadow(0 0 12px rgba(6,182,212,0.35))',
+                                    letterSpacing: '-0.02em',
+                                }}
+                            >
+                                Cricentrix<span style={{ WebkitTextFillColor: '#06B6D4' }}>.</span>
                             </span>
                         </div>
 
