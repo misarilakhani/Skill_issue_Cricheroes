@@ -33,6 +33,7 @@ export function ImpactMeter({ score, animate = true, colorTheme = 'default' }) {
         return 'url(#gradient-avg)';
     };
 
+    const radius = 90;
     const backgroundStrokeWidth = 14;
     const foregroundStrokeWidth = 10;
     const gap = 2; // small inner gap
@@ -129,11 +130,11 @@ export function ImpactMeter({ score, animate = true, colorTheme = 'default' }) {
             </svg>
 
             {/* Center Text positioned cleanly inside the arc */}
-            <div className="absolute top-[85px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none flex flex-col items-center w-full">
-                <div className={`text-5xl sm:text-[64px] font-black ${getColor(score)} transition-colors duration-1000 tracking-tighter drop-shadow-md leading-none`}>
+            <div className="absolute top-[32%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none flex flex-col items-center">
+                <div className={`text-5xl sm:text-6xl font-black ${getColor(score)} transition-colors duration-1000 tracking-tighter drop-shadow-md leading-[0.7]`}>
                     {Math.round(displayScore)}
                 </div>
-                <div className="text-slate-400 text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] mt-2 sm:mt-3 opacity-80">
+                <div className="text-slate-400 text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] mt-0 opacity-80">
                     Impact
                 </div>
             </div>

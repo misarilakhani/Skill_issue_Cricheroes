@@ -14,6 +14,10 @@ import { analyzePressure } from '../utils/pressureAnalysis';
 import { ScoreStoryCard } from '../components/ScoreStoryCard';
 import { PressureAnalysisCard } from '../components/PressureAnalysisCard';
 import { Navbar } from '../components/Navbar';
+import { TurningPointSection } from '../components/TurningPointSection';
+import { ScenarioAnalyzer } from '../components/ScenarioAnalyzer';
+import { ImpactLeaderboard } from '../components/ImpactLeaderboard';
+import { saveToLeaderboard } from '../utils/leaderboardStorage';
 
 export function ImpactCalculator({ setCurrentRoute }) {
     const [loading, setLoading] = useState(true);
@@ -101,6 +105,18 @@ export function ImpactCalculator({ setCurrentRoute }) {
             score2: impact2 ? impact2.score : null,
             timestamp: new Date().toISOString()
         });
+
+        // Save to leaderboard
+        saveToLeaderboard({
+            playerName: player1.playerName,
+            impactScore: impact1.score
+        });
+        if (impact2) {
+            saveToLeaderboard({
+                playerName: p2Name,
+                impactScore: impact2.score
+            });
+        }
     };
 
     const renderPlayerResult = (res, isPlayer2 = false) => {
@@ -359,6 +375,13 @@ export function ImpactCalculator({ setCurrentRoute }) {
                             )}
                         </div>
 
+                        {!result2 && (
+                            <div className="space-y-6 mt-8 animate-in fade-in duration-1000">
+                                <TurningPointSection result={result} />
+                                <ScenarioAnalyzer result={result} />
+                            </div>
+                        )}
+
                         <div className="glass-panel p-8 rounded-3xl mt-8 relative" style={{ animation: `fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both` }}>
                             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[80%] bg-accent-primary/5 blur-[80px] rounded-full pointer-events-none"></div>
 
@@ -383,6 +406,11 @@ export function ImpactCalculator({ setCurrentRoute }) {
                         </div>
                     </div>
                 )}
+                
+                {/* Global Leaderboard Section */}
+                <div className="mt-12">
+                   <ImpactLeaderboard />
+                </div>
             </main>
         </div>
     );
