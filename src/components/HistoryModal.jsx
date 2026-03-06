@@ -17,20 +17,20 @@ export function HistoryModal({ onClose }) {
 
     return (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-in fade-in duration-200">
-            <div className="bg-slate-900 border border-white/10 rounded-2xl shadow-2xl max-w-2xl w-full relative max-h-[85vh] flex flex-col">
-                <div className="p-4 sm:p-6 border-b border-white/10 flex justify-between items-center shrink-0">
-                    <div className="flex items-center gap-4">
+            <div className="bg-[#111625] border border-white/5 rounded-3xl shadow-2xl max-w-3xl w-full relative max-h-[85vh] flex flex-col">
+                <div className="p-4 sm:p-6 border-b border-white/5 flex justify-between items-center shrink-0">
+                    <div className="flex items-center gap-6">
                         <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight hidden sm:block">Scores</h2>
-                        <div className="flex bg-slate-800/80 rounded-lg p-1 border border-white/5">
+                        <div className="flex bg-[#1e2434] rounded-lg p-1">
                             <button
                                 onClick={() => setActiveTab('history')}
-                                className={`px-3 py-1.5 sm:px-4 text-xs sm:text-sm font-bold rounded-md transition-all ${activeTab === 'history' ? 'bg-slate-700 text-white shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-700/50'}`}
+                                className={`px-4 py-1.5 sm:px-5 text-sm font-bold rounded-md transition-all ${activeTab === 'history' ? 'bg-[#313b52] text-white shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'}`}
                             >
                                 History
                             </button>
                             <button
                                 onClick={() => setActiveTab('leaderboard')}
-                                className={`px-3 py-1.5 sm:px-4 text-xs sm:text-sm font-bold rounded-md transition-all ${activeTab === 'leaderboard' ? 'bg-slate-700 text-white shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-700/50'}`}
+                                className={`px-4 py-1.5 sm:px-5 text-sm font-bold rounded-md transition-all ${activeTab === 'leaderboard' ? 'bg-[#313b52] text-white shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'}`}
                             >
                                 Leaderboard
                             </button>
@@ -38,7 +38,7 @@ export function HistoryModal({ onClose }) {
                     </div>
                     <button
                         onClick={onClose}
-                        className="text-slate-400 hover:text-white transition-colors p-2 bg-slate-800/50 rounded-full hover:bg-slate-700"
+                        className="text-slate-400 hover:text-white transition-colors p-2 bg-[#1e2434] rounded-full hover:bg-[#313b52]"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                     </button>
@@ -58,21 +58,12 @@ export function HistoryModal({ onClose }) {
                     ) : (
                         <div className="space-y-3">
                             {history.map((entry, idx) => (
-                                <div key={idx} className="bg-slate-800/50 border border-white/5 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-slate-800/80 transition-colors">
-                                    <div className="flex-1">
-                                        <div className="flex items-center gap-3 mb-1">
-                                            <span className="font-bold text-white text-lg">{entry.player1}</span>
-                                            <span className="bg-teal-500/10 text-teal-400 border border-teal-500/20 px-2 py-0.5 rounded flex items-center justify-center font-black text-sm">{entry.score1}</span>
-                                        </div>
-                                        {entry.player2 && (
-                                            <div className="flex items-center gap-3 mt-2">
-                                                <span className="text-[10px] text-slate-500 font-black uppercase tracking-widest px-1">VS</span>
-                                                <span className="font-bold text-slate-300 text-sm">{entry.player2}</span>
-                                                <span className="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2 py-0.5 rounded flex items-center justify-center font-black text-sm">{entry.score2}</span>
-                                            </div>
-                                        )}
+                                <div key={idx} className="bg-[#181d2d] border border-white/5 rounded-2xl p-5 flex items-center justify-between hover:bg-[#1f2638] transition-colors">
+                                    <div className="flex items-center gap-4">
+                                        <span className="font-bold text-white text-xl">{entry.player1}</span>
+                                        <span className="bg-[#132c32] text-[#36d399] border border-[#132c32] px-2.5 py-1 rounded flex items-center justify-center font-bold text-sm">{entry.score1}</span>
                                     </div>
-                                    <div className="text-xs font-bold text-slate-500 shrink-0 bg-slate-900/50 px-3 py-1.5 rounded-lg border border-white/5">
+                                    <div className="text-[11px] font-bold text-slate-400 bg-[#111625] px-4 py-2 rounded-xl border border-white/5 uppercase tracking-wide">
                                         {formatDate(entry.timestamp)}
                                     </div>
                                 </div>
@@ -81,10 +72,10 @@ export function HistoryModal({ onClose }) {
                     )}
                 </div>
 
-                <div className="p-4 border-t border-white/10 shrink-0 flex justify-end">
+                <div className="p-4 shrink-0 flex justify-end">
                     <button
                         onClick={onClose}
-                        className="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-2.5 px-6 rounded-xl transition-colors border border-white/5 text-sm"
+                        className="bg-[#242c3d] hover:bg-[#313b52] text-white font-bold py-2.5 px-8 rounded-xl transition-colors text-sm shadow-sm"
                     >
                         Close
                     </button>
