@@ -31,20 +31,48 @@ export function Cursor() {
 
     return (
         <div
-            className="fixed pointer-events-none z-[99999] flex items-center justify-center overflow-hidden w-5 h-5 rounded-full bg-gradient-to-br from-white to-slate-200 shadow-[0_0_15px_4px_rgba(255,255,255,0.4),inset_-2px_-2px_6px_rgba(0,0,0,0.15)] hidden lg:flex"
+            className="fixed pointer-events-none z-[99999] flex items-center justify-center w-6 h-6 hidden lg:flex"
             style={{
                 left: 0,
                 top: 0,
-                // Instant update, no CSS transition delay for accuracy
-                transform: `matrix(1, 0, 0, 1, ${position.x - 10}, ${position.y - 10}) rotate(${position.x}deg)`
+                transform: `translate3d(${position.x - 12}px, ${position.y - 12}px, 0) rotate(${(position.x + position.y) * 0.5}deg)`
             }}
         >
-            {/* Cricket Ball Seam details */}
-            <div className="absolute w-full h-[1px] bg-slate-400/80 transform -rotate-12 shadow-[0_1px_1px_rgba(255,255,255,0.8)]"></div>
-            <div className="absolute w-full h-[1px] bg-slate-400/80 transform rotate-12 mt-1 shadow-[0_1px_1px_rgba(255,255,255,0.8)]"></div>
-
-            {/* Highlight for 3D sphere effect */}
-            <div className="absolute top-[10%] left-[15%] w-1.5 h-1.5 bg-white rounded-full blur-[1px]"></div>
+            <svg 
+                viewBox="0 0 100 100" 
+                className="w-full h-full drop-shadow-[0_0_6px_rgba(255,255,255,0.4)]"
+                fill="none" 
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                {/* Main Circle Outline */}
+                <circle 
+                    cx="50" cy="50" r="45" 
+                    stroke="white" 
+                    strokeWidth="4"
+                />
+                
+                {/* Left Seam Line */}
+                <path 
+                    d="M40 8V92" 
+                    stroke="white" 
+                    strokeWidth="3" 
+                />
+                
+                {/* Right Seam Line */}
+                <path 
+                    d="M60 8V92" 
+                    stroke="white" 
+                    strokeWidth="3" 
+                />
+                
+                {/* Center Dotted Seam Line */}
+                <path 
+                    d="M50 10V90" 
+                    stroke="white" 
+                    strokeWidth="4" 
+                    strokeDasharray="4 6"
+                />
+            </svg>
         </div>
     );
 }
