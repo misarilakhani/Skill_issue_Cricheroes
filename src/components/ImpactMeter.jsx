@@ -53,13 +53,13 @@ export function ImpactMeter({ score, animate = true, colorTheme = 'default' }) {
     const valueOffset = circumference - dashLength;
 
     return (
-        <div className="relative flex flex-col items-center justify-center py-8">
+        <div className="relative flex flex-col items-center justify-center pt-4 pb-2">
 
             {/* SVG Circular Dial */}
             <svg
-                height={radius * 1.2} // Only need top half + some padding for glow
-                width={radius * 2}
-                className="transform rotate-180 drop-shadow-2xl overflow-visible"
+                height={110}
+                width={180}
+                className="drop-shadow-2xl overflow-visible"
             >
                 <defs>
                     <linearGradient id="gradient-amber" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -98,6 +98,7 @@ export function ImpactMeter({ score, animate = true, colorTheme = 'default' }) {
                     r={normalizedRadius}
                     cx={radius}
                     cy={radius}
+                    transform="rotate(180 90 90)"
                 />
 
                 {/* Animated Main Arc */}
@@ -115,11 +116,12 @@ export function ImpactMeter({ score, animate = true, colorTheme = 'default' }) {
                     r={normalizedRadius}
                     cx={radius}
                     cy={radius}
+                    transform="rotate(180 90 90)"
                 />
             </svg>
 
             {/* Center Text positioned cleanly inside the arc */}
-            <div className="absolute top-[48%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none flex flex-col items-center">
+            <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 text-center pointer-events-none flex flex-col items-center">
                 <div className={`text-5xl sm:text-6xl font-black ${getColor(score)} transition-colors duration-1000 tracking-tighter drop-shadow-md leading-none`}>
                     {Math.round(displayScore)}
                 </div>
