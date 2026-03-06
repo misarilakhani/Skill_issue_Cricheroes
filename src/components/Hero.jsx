@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { HistoryModal } from './HistoryModal';
 
 export function Hero({ setCurrentRoute }) {
+    const [showHistory, setShowHistory] = useState(false);
+
     return (
-        <div className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden min-h-screen flex items-center">
+        <>
+            {showHistory && <HistoryModal onClose={() => setShowHistory(false)} />}
+            <div className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden min-h-screen flex items-center">
             {/* Background elements (pitch lines, glow) */}
             <div className="absolute inset-0 z-0 flex items-center justify-center opacity-20 pointer-events-none">
                 <div className="w-full h-full max-w-5xl border-x border-white/10 flex justify-center">
@@ -17,10 +22,6 @@ export function Hero({ setCurrentRoute }) {
 
                     {/* Text Content */}
                     <div className="lg:col-span-6 text-center lg:text-left mb-16 lg:mb-0">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-secondary/10 border border-accent-secondary/20 text-accent-secondary text-xs font-bold uppercase tracking-widest mb-6">
-                            <span className="w-2 h-2 rounded-full bg-accent-secondary animate-pulse"></span>
-                            Hackathon MVP
-                        </div>
                         <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight mb-6 leading-[1.1]">
                             Measuring <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-primary to-accent-secondary">True Impact</span> in Cricket
                         </h1>
@@ -38,10 +39,10 @@ export function Hero({ setCurrentRoute }) {
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
                             </button>
                             <button
-                                onClick={() => setCurrentRoute('calculator')}
+                                onClick={() => setShowHistory(true)}
                                 className="w-full sm:w-auto px-8 py-4 rounded-xl font-bold text-slate-300 bg-card border border-white/10 hover:bg-slate-800 hover:text-white transition-all hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-2"
                             >
-                                View Impact Score
+                                View Previous Impact Scores
                             </button>
                         </div>
                     </div>
@@ -82,7 +83,6 @@ export function Hero({ setCurrentRoute }) {
 
                                 {/* Orbiting element (Ball metaphor) */}
                                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 border border-white/5 rounded-full animate-spin" style={{ animationDuration: '10s', animationTimingFunction: 'linear' }}>
-                                    <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-red-500 rounded-full shadow-[0_0_10px_rgba(239,68,68,0.8)]"></div>
                                 </div>
                             </div>
                         </div>
@@ -115,5 +115,6 @@ export function Hero({ setCurrentRoute }) {
                 </div>
             </div>
         </div>
+        </>
     );
 }
