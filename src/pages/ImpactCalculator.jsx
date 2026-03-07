@@ -18,6 +18,7 @@ import { TurningPointSection } from '../components/TurningPointSection';
 import { ScenarioAnalyzer } from '../components/ScenarioAnalyzer';
 import { saveToLeaderboard } from '../utils/leaderboardStorage';
 import supabase from '../services/supabaseClient';
+import { ScoreRevealAnimation } from '../components/ScoreRevealAnimation';
 
 
 export function ImpactCalculator({ setCurrentRoute, initialPlayers = [], initialFormats = [] }) {
@@ -33,12 +34,13 @@ export function ImpactCalculator({ setCurrentRoute, initialPlayers = [], initial
     const [result2, setResult2] = useState(null);
     const [showAdvanced, setShowAdvanced] = useState(false);
     const [calculating, setCalculating] = useState(false);
+    const [isAnimatingScore, setIsAnimatingScore] = useState(false);
     const isDemoMode = !supabase;
 
     useEffect(() => {
         setPlayers(initialPlayers);
         setFormats(initialFormats);
-        
+
         // Select first format and player if available
         if (initialFormats?.length > 0) setSelectedFormat(initialFormats[0]);
         if (initialPlayers?.length > 0) setSelectedPlayerId(initialPlayers[0].playerId);
@@ -96,17 +98,18 @@ export function ImpactCalculator({ setCurrentRoute, initialPlayers = [], initial
 
     const handleCalculate = async () => {
         setCalculating(true);
+        let impact1 = null;
         try {
             const p1Meta = players.find(p => p.playerId === selectedPlayerId);
             if (!p1Meta) return;
 
             const player1 = await fetchPlayerData(p1Meta);
-            const filteredPlayer1 = { 
-                ...player1, 
-                innings: selectedFormat ? player1.innings.filter(i => i.format === selectedFormat) : player1.innings 
+            const filteredPlayer1 = {
+                ...player1,
+                innings: selectedFormat ? player1.innings.filter(i => i.format === selectedFormat) : player1.innings
             };
-            
-            const impact1 = calculateImpact(filteredPlayer1);
+
+            impact1 = calculateImpact(filteredPlayer1);
             setResult({ player: filteredPlayer1, ...impact1 });
 
             let impact2 = null;
@@ -116,9 +119,9 @@ export function ImpactCalculator({ setCurrentRoute, initialPlayers = [], initial
                 const p2Meta = players.find(p => p.playerId === selectedPlayer2Id);
                 if (p2Meta) {
                     const player2 = await fetchPlayerData(p2Meta);
-                    const filteredPlayer2 = { 
-                        ...player2, 
-                        innings: selectedFormat ? player2.innings.filter(i => i.format === selectedFormat) : player2.innings 
+                    const filteredPlayer2 = {
+                        ...player2,
+                        innings: selectedFormat ? player2.innings.filter(i => i.format === selectedFormat) : player2.innings
                     };
                     impact2 = calculateImpact(filteredPlayer2);
                     p2Name = player2.playerName;
@@ -150,6 +153,9 @@ export function ImpactCalculator({ setCurrentRoute, initialPlayers = [], initial
             console.error("Calculation error:", err);
         } finally {
             setCalculating(false);
+            if (impact1) {
+                setIsAnimatingScore(true);
+            }
         }
     };
 
@@ -314,8 +320,8 @@ export function ImpactCalculator({ setCurrentRoute, initialPlayers = [], initial
                         <div className="flex flex-col items-center md:items-end gap-3 flex-shrink-0">
                             <div className={cn(
                                 "px-4 py-2 rounded-2xl border flex items-center gap-2 transition-all shadow-lg",
-                                isDemoMode 
-                                    ? "bg-amber-500/10 border-amber-500/20 text-amber-400 shadow-amber-500/5" 
+                                isDemoMode
+                                    ? "bg-amber-500/10 border-amber-500/20 text-amber-400 shadow-amber-500/5"
                                     : "bg-emerald-500/10 border-emerald-500/20 text-emerald-400 shadow-emerald-500/5"
                             )}>
                                 <div className={cn("w-2 h-2 rounded-full", isDemoMode ? "bg-amber-400 animate-pulse" : "bg-emerald-400")}></div>
@@ -440,6 +446,39 @@ export function ImpactCalculator({ setCurrentRoute, initialPlayers = [], initial
                         </div>
                     </div>
                 </div>
+                
+                {isAnimatingScore && result && (
+                    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-500 overflow-hidden">
+                        <div className={cn(
+                            "flex items-center justify-center gap-8 md:gap-16 w-full max-w-6xl px-4",
+                            isCompareMode ? "flex-col md:flex-row" : "flex-row"
+                        )}>
+                            <div className={isCompareMode ? "w-full md:w-1/2" : "w-full"}>
+                                <ScoreRevealAnimation 
+                                    score={result.score} 
+                                    onComplete={() => !result2 && setIsAnimatingScore(false)} 
+                                    title={isCompareMode ? "PLAYER 1 IMPACT" : "MATCH IMPACT"}
+                                    variant={isCompareMode ? "half" : "full"}
+                                    isWinner={isCompareMode && result2 && result.score >= result2.score}
+                                    subtitle={isCompareMode && result2 && result.score === result2.score ? "Tied" : result.player.playerName}
+                                />
+                            </div>
+                            
+                            {isCompareMode && result2 && (
+                                <div className="w-full md:w-1/2">
+                                    <ScoreRevealAnimation 
+                                        score={result2.score} 
+                                        onComplete={() => setIsAnimatingScore(false)} 
+                                        title="PLAYER 2 IMPACT"
+                                        variant="half"
+                                        isWinner={result2.score >= result.score}
+                                        subtitle={result.score === result2.score ? "Tied" : result2.player.playerName}
+                                    />
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                )}
 
                 {!result && (
                     <div className="flex flex-col items-center justify-center p-12 text-center animate-in fade-in zoom-in duration-700">
@@ -451,8 +490,8 @@ export function ImpactCalculator({ setCurrentRoute, initialPlayers = [], initial
                     </div>
                 )}
 
-                {result && (
-                    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
+                {result && !isAnimatingScore && (
+                    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-1000 fill-mode-both">
                         <div className={`grid grid-cols-1 ${result2 ? 'lg:grid-cols-2' : ''} gap-8 lg:gap-12 relative`}>
                             {renderPlayerResult(result, false)}
                             {result2 && (

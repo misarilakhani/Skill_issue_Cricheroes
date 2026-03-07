@@ -231,6 +231,43 @@
   animation: shimmer 2s linear infinite;
 }
 
+.animate-in {
+  animation-duration: 500ms;
+  animation-fill-mode: both;
+}
+
+.fade-in {
+  animation-name: fadeIn;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.winner-glow {
+  position: relative;
+}
+
+.winner-glow::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  background: linear-gradient(45deg, #4F46E5, #06B6D4, #4F46E5);
+  background-size: 200% 200%;
+  border-radius: inherit;
+  z-index: -1;
+  animation: winnerGlow 3s linear infinite;
+  filter: blur(12px);
+  opacity: 0.6;
+}
+
+@keyframes winnerGlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 /* ─── Cinematic Intro: Keyframes ─────────────────── */
 
 /* Subtle float for idle ball */
