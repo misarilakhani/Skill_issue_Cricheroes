@@ -22,7 +22,7 @@ export function DatabaseExplorer({ setCurrentRoute }) {
         fetchData();
     }, []);
 
-    const filteredPlayers = players.filter(p => 
+    const filteredPlayers = players.filter(p =>
         p.playerName.toLowerCase().includes(searchQuery.toLowerCase()) ||
         p.team?.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -38,11 +38,11 @@ export function DatabaseExplorer({ setCurrentRoute }) {
     return (
         <div className="min-h-screen bg-darker text-slate-100 font-sans selection:bg-accent-primary/30 selection:text-white pb-20 pt-32">
             <Navbar currentRoute="database" setCurrentRoute={setCurrentRoute} />
-            
+
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
                 {/* Background Glows */}
                 <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent-primary/5 rounded-full blur-[120px] -z-10"></div>
-                
+
                 <div className="mb-12">
                     <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                         <div>
@@ -63,8 +63,8 @@ export function DatabaseExplorer({ setCurrentRoute }) {
                         {/* Connection Badge */}
                         <div className={cn(
                             "px-4 py-2 rounded-2xl border flex items-center gap-2 transition-all shadow-lg",
-                            isDemoMode 
-                                ? "bg-amber-500/10 border-amber-500/20 text-amber-400 shadow-amber-500/5" 
+                            isDemoMode
+                                ? "bg-amber-500/10 border-amber-500/20 text-amber-400 shadow-amber-500/5"
                                 : "bg-emerald-500/10 border-emerald-500/20 text-emerald-400 shadow-emerald-500/5"
                         )}>
                             <div className={cn("w-2 h-2 rounded-full", isDemoMode ? "bg-amber-400 animate-pulse" : "bg-emerald-400")}></div>
@@ -80,7 +80,7 @@ export function DatabaseExplorer({ setCurrentRoute }) {
                     <div className="lg:col-span-4 space-y-6">
                         <div className="relative group">
                             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:text-accent-primary transition-colors" />
-                            <input 
+                            <input
                                 type="text"
                                 placeholder="Search players or teams..."
                                 value={searchQuery}
@@ -111,8 +111,7 @@ export function DatabaseExplorer({ setCurrentRoute }) {
                                                 {p.playerName.charAt(0)}
                                             </div>
                                             <div>
-                                                <div className="text-sm font-bold text-slate-200 group-hover:text-white transition-colors">{p.playerName}</div>
-                                                <div className="text-[10px] font-medium text-slate-500 uppercase tracking-widest">{p.team || 'National Team'}</div>
+                                                <div className="text-lg font-bold text-slate-200 group-hover:text-white transition-colors">{p.playerName}</div>
                                             </div>
                                         </div>
                                         <ChevronRight className={cn(
@@ -147,9 +146,7 @@ export function DatabaseExplorer({ setCurrentRoute }) {
                                     <div className="relative z-10">
                                         <h3 className="text-4xl font-black text-white tracking-tight mb-2">{selectedPlayer.playerName}</h3>
                                         <div className="flex flex-wrap gap-3">
-                                            <span className="px-4 py-1.5 rounded-full bg-accent-primary/10 border border-accent-primary/20 text-accent-primary text-[10px] font-black uppercase tracking-widest">
-                                                {selectedPlayer.team || 'Team India'}
-                                            </span>
+
                                             <span className="px-4 py-1.5 rounded-full bg-slate-900 border border-white/5 text-slate-400 text-[10px] font-medium uppercase tracking-widest flex items-center gap-2">
                                                 <Calendar className="w-3 h-3" />
                                                 Dataset: 2023-24 Season
@@ -200,8 +197,8 @@ export function DatabaseExplorer({ setCurrentRoute }) {
                                                             <span className={cn(
                                                                 "px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-tighter border",
                                                                 inning.phase === 'Death' ? "bg-rose-500/10 border-rose-500/20 text-rose-400" :
-                                                                inning.phase === 'Powerplay' ? "bg-amber-500/10 border-amber-500/20 text-amber-400" :
-                                                                "bg-blue-500/10 border-blue-500/20 text-blue-400"
+                                                                    inning.phase === 'Powerplay' ? "bg-amber-500/10 border-amber-500/20 text-amber-400" :
+                                                                        "bg-blue-500/10 border-blue-500/20 text-blue-400"
                                                             )}>
                                                                 {inning.phase}
                                                             </span>
