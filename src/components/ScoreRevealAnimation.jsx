@@ -35,7 +35,7 @@ export const ScoreRevealAnimation = ({
                 setIsLocked(true);
                 setTimeout(() => {
                     if (onComplete) onComplete();
-                }, 500); // Small pause after locking
+                }, 2500); // Increased pause for better visibility
             }
         };
         
