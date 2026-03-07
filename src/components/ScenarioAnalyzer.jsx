@@ -7,16 +7,21 @@ export function ScenarioAnalyzer({ result, players }) {
     const [isOpen, setIsOpen] = useState(false);
     const [scenario, setScenario] = useState({
         target: 180,
-        oversRemaining: 10,
-        requiredRunRate: 9,
+        currentScore: 0,
+        totalOvers: 20,
+        oversDone: 0,
         wicketsLost: 3
     });
+
+    const oversRemaining = Math.max(0, scenario.totalOvers - scenario.oversDone);
+    const runsNeeded = Math.max(0, scenario.target - scenario.currentScore);
+    const requiredRunRate = oversRemaining > 0 ? (runsNeeded / oversRemaining).toFixed(2) : '0.00';
     const [analysis, setAnalysis] = useState(null);
     const [scoutResults, setScoutResults] = useState(null);
     const [isScouting, setIsScouting] = useState(false);
 
     const handleAnalyze = () => {
-        const res = evaluateScenario(result, scenario);
+        const res = evaluateScenario(result, { ...scenario, oversRemaining, requiredRunRate: parseFloat(requiredRunRate), runsNeeded });
         setAnalysis(res);
     };
 
@@ -31,7 +36,7 @@ export function ScenarioAnalyzer({ result, players }) {
 
             const results = players.map(player => {
                 const impactResult = calculateImpact(player);
-                const evaluation = evaluateScenario(impactResult, scenario);
+                const evaluation = evaluateScenario(impactResult, { ...scenario, oversRemaining, requiredRunRate: parseFloat(requiredRunRate), runsNeeded });
                 return {
                     name: player.playerName,
                     suitability: evaluation.suitability,
@@ -50,7 +55,7 @@ export function ScenarioAnalyzer({ result, players }) {
 
     return (
         <div className="glass-panel overflow-hidden rounded-3xl mb-6 transition-all duration-300">
-            <button 
+            <button
                 onClick={() => setIsOpen(!isOpen)}
                 className="w-full px-8 py-6 flex items-center justify-between hover:bg-white/5 transition-colors group"
             >
@@ -71,51 +76,83 @@ export function ScenarioAnalyzer({ result, players }) {
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Target Score</label>
-                                    <input 
-                                        type="number" 
+                                    <input
+                                        type="number"
+                                        min="0"
                                         value={scenario.target}
-                                        onChange={(e) => setScenario({...scenario, target: parseInt(e.target.value) || 0})}
+                                        onChange={(e) => setScenario({ ...scenario, target: Math.max(0, parseInt(e.target.value) || 0) })}
                                         className="w-full bg-slate-900/60 border border-white/5 rounded-xl px-4 py-3 text-white focus:border-accent-purple outline-none transition-all"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Overs Remaining</label>
-                                    <input 
-                                        type="number" 
-                                        value={scenario.oversRemaining}
-                                        onChange={(e) => setScenario({...scenario, oversRemaining: parseInt(e.target.value) || 0})}
+                                    <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Current Score</label>
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        value={scenario.currentScore}
+                                        onChange={(e) => setScenario({ ...scenario, currentScore: Math.max(0, parseInt(e.target.value) || 0) })}
                                         className="w-full bg-slate-900/60 border border-white/5 rounded-xl px-4 py-3 text-white focus:border-accent-purple outline-none transition-all"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Req. Run Rate</label>
-                                    <input 
-                                        type="number" 
-                                        step="0.1"
-                                        value={scenario.requiredRunRate}
-                                        onChange={(e) => setScenario({...scenario, requiredRunRate: parseFloat(e.target.value) || 0})}
+                                    <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Total Overs</label>
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        value={scenario.totalOvers}
+                                        onChange={(e) => setScenario({ ...scenario, totalOvers: Math.max(0, parseInt(e.target.value) || 0) })}
+                                        className="w-full bg-slate-900/60 border border-white/5 rounded-xl px-4 py-3 text-white focus:border-accent-purple outline-none transition-all"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Overs Done</label>
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        value={scenario.oversDone}
+                                        onChange={(e) => setScenario({ ...scenario, oversDone: Math.max(0, parseInt(e.target.value) || 0) })}
                                         className="w-full bg-slate-900/60 border border-white/5 rounded-xl px-4 py-3 text-white focus:border-accent-purple outline-none transition-all"
                                     />
                                 </div>
                                 <div>
                                     <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Wickets Lost</label>
-                                    <input 
-                                        type="number" 
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        max="10"
                                         value={scenario.wicketsLost}
-                                        onChange={(e) => setScenario({...scenario, wicketsLost: parseInt(e.target.value) || 0})}
+                                        onChange={(e) => setScenario({ ...scenario, wicketsLost: Math.max(0, Math.min(10, parseInt(e.target.value) || 0)) })}
                                         className="w-full bg-slate-900/60 border border-white/5 rounded-xl px-4 py-3 text-white focus:border-accent-purple outline-none transition-all"
                                     />
                                 </div>
+                                <div>
+                                    <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Overs Remaining</label>
+                                    <div className="w-full bg-slate-900/40 border border-white/5 rounded-xl px-4 py-3 text-sky-400 font-bold">
+                                        {oversRemaining}
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Runs Needed</label>
+                                    <div className="w-full bg-slate-900/40 border border-white/5 rounded-xl px-4 py-3 text-emerald-400 font-bold">
+                                        {runsNeeded}
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Req. Run Rate</label>
+                                    <div className="w-full bg-slate-900/40 border border-white/5 rounded-xl px-4 py-3 text-amber-400 font-bold">
+                                        {requiredRunRate}
+                                    </div>
+                                </div>
                             </div>
                             <div className="grid grid-cols-2 gap-3">
-                                <button 
+                                <button
                                     onClick={handleAnalyze}
                                     className="bg-accent-purple hover:bg-accent-purple/80 text-white font-bold py-4 rounded-2xl transition-all active:scale-95 flex items-center justify-center gap-2 shadow-lg shadow-accent-purple/20"
                                 >
                                     <Search className="w-4 h-4" />
                                     Analyze
                                 </button>
-                                <button 
+                                <button
                                     onClick={handleScout}
                                     disabled={isScouting}
                                     className="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-4 rounded-2xl transition-all active:scale-95 flex items-center justify-center gap-2 border border-white/5 disabled:opacity-50"
@@ -131,18 +168,16 @@ export function ScenarioAnalyzer({ result, players }) {
                                 <div className="space-y-6 animate-in zoom-in duration-500">
                                     <div className="text-center">
                                         <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest mb-2">Selected Player Suitability</h4>
-                                        <div className={`text-3xl font-black uppercase tracking-tighter ${
-                                            analysis.suitability === 'Strong' ? 'text-emerald-400' : 
+                                        <div className={`text-3xl font-black uppercase tracking-tighter ${analysis.suitability === 'Strong' ? 'text-emerald-400' :
                                             analysis.suitability === 'Moderate' ? 'text-amber-400' : 'text-rose-400'
-                                        }`}>
+                                            }`}>
                                             {analysis.suitability}
                                         </div>
                                     </div>
                                     <div className="bg-slate-900/80 p-6 rounded-2xl border border-white/5 relative overflow-hidden group">
-                                        <div className={`absolute top-0 left-0 w-1 h-full ${
-                                            analysis.suitability === 'Strong' ? 'bg-emerald-500' : 
+                                        <div className={`absolute top-0 left-0 w-1 h-full ${analysis.suitability === 'Strong' ? 'bg-emerald-500' :
                                             analysis.suitability === 'Moderate' ? 'bg-amber-500' : 'bg-rose-500'
-                                        }`}></div>
+                                            }`}></div>
                                         <p className="text-sm text-slate-300 leading-relaxed italic">
                                             "{analysis.insight}"
                                         </p>
@@ -176,10 +211,9 @@ export function ScenarioAnalyzer({ result, players }) {
                                                         <td className="px-4 py-3 font-bold text-slate-200">{p.name}</td>
                                                         <td className="px-4 py-3 text-center font-mono text-slate-400">{p.score}</td>
                                                         <td className="px-4 py-3 text-right">
-                                                            <span className={`text-[10px] font-black uppercase px-2 py-1 rounded-md ${
-                                                                p.suitability === 'Strong' ? 'bg-emerald-500/10 text-emerald-400' : 
+                                                            <span className={`text-[10px] font-black uppercase px-2 py-1 rounded-md ${p.suitability === 'Strong' ? 'bg-emerald-500/10 text-emerald-400' :
                                                                 p.suitability === 'Moderate' ? 'bg-amber-500/10 text-amber-400' : 'bg-rose-500/10 text-rose-400'
-                                                            }`}>
+                                                                }`}>
                                                                 {p.suitability}
                                                             </span>
                                                         </td>
